@@ -8,7 +8,6 @@
   <!-- Search component -->
   <!--<app-search></app-search>-->
 
-  <!-- Info component -->
   <app-info
     title="Your List Is Empty"
     text="Please use 'Add New Course' button to add your first course"
@@ -16,8 +15,7 @@
     <app-button buttonText="Add new course"></app-button>
   </app-info>
 
-  <!-- Course Card component -->
-  <!--<app-course-card></app-course-card>-->
+  <app-courses-list [courses]="mockedCoursesList"></app-courses-list>
 
   <!-- Login Form component -->
   <!--<app-login-form></app-login-form>-->
