@@ -30,11 +30,12 @@ const components = [
   CourseFormComponent,
   DurationPipe,
   CustomDatePipe,
+  AuthorListPipe,
   EmailValidatorDirective
 ];
 
 @NgModule({
-  declarations: [components, AuthorListPipe],
+  declarations: [components],
   imports: [
     CommonModule,
     FontAwesomeModule,
