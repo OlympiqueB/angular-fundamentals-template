@@ -10,7 +10,7 @@
     <div class="course-card__info-text">
       <div>
         <b>Authors: </b>
-        {{ getAuthors(courseObject.authors) }}
+        {{ courseObject.authors | authorList }}
       </div>
       <div>
         <b>Duration: </b
