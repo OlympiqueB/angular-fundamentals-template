@@ -15,7 +15,9 @@
     <app-button buttonText="Add new course"></app-button>
   </app-info>
 
-  <app-courses-list [courses]="mockedCoursesList"></app-courses-list>
+  <app-courses-list [courses]="mockedCoursesList" [editable]="true"></app-courses-list>
+
+  <!-- <app-course-info [course]="mockedCoursesList[0]"></app-course-info> -->
 
   <!-- Login Form component -->
   <!--<app-login-form></app-login-form>-->
