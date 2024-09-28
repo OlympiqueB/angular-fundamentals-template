@@ -10,18 +10,18 @@
     <div class="course-card__info-text">
       <div>
         <b>Authors: </b>
-        {{ courseObject.authors | authorList }}
+        {{ courseObject.authors }}
       </div>
       <div>
         <b>Duration: </b
         ><span class="course-card__duration">{{
-          courseObject.duration | duration
+          courseObject.duration
         }}</span>
       </div>
       <div>
         <b>Created: </b
         ><span class="course-card__date">{{
-          courseObject.creationDate | customDate
+          courseObject.creationDate
         }}</span>
       </div>
     </div>
