@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,6 +8,8 @@ import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./button.component.scss"],
 })
 export class ButtonComponent {
+  @Output() clicked = new EventEmitter<void>();
+
   private library: FaIconLibrary;
 
   constructor(library: FaIconLibrary) {
@@ -24,5 +26,7 @@ export class ButtonComponent {
       : "";
   }
 
-  // Use the names for the inputs `buttonText` and `iconName`.
+  onClick(): void {
+    this.clicked.emit();
+  }
 }
