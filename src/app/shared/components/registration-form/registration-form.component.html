@@ -35,6 +35,7 @@
             id="email"
             formControlName="email"
             placeholder="Input text"
+            emailValidator
           />
           <span
             *ngIf="email?.errors?.['required'] && 
@@ -42,6 +43,13 @@
             id="emailErrorMessage"
             class="text-danger"
             >Email is required.</span
+          >
+          <span
+            *ngIf="email?.errors?.['invalidEmail'] && 
+            (email?.touched || submitted)"
+            id="emailErrorMessage"
+            class="text-danger"
+            >Invalid email address.</span
           >
         </div>
         <div class="form__control">
