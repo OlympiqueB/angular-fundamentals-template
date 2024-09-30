@@ -1,13 +1,5 @@
 import { Component, Input } from "@angular/core";
-
-interface CourseModel {
-  id: string;
-  title: string;
-  description: string;
-  creationDate: string;
-  duration: number;
-  authors: string[];
-}
+import { CourseModel } from "@app/shared/models/course.model";
 
 @Component({
   selector: "app-courses-list",
