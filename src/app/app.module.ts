@@ -9,6 +9,7 @@ import { CoursesStoreService } from '@app/services/courses-store.service';
 import { CoursesService } from '@app/services/courses.service';
 import { CoursesModule } from './features/courses/courses.module';
 import { CourseInfoModule } from './features/course-info/course-info.module';
+import { ButtonLabelService } from './services/button-label.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +20,7 @@ import { CourseInfoModule } from './features/course-info/course-info.module';
     CoursesModule,
     CourseInfoModule
   ],
-  providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService],
+  providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService, ButtonLabelService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
