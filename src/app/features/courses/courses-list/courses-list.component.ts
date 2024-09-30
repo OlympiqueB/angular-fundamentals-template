@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
 
 @Component({
@@ -9,4 +10,10 @@ import { CourseModel } from "@app/shared/models/course.model";
 export class CoursesListComponent {
   @Input() courses?: CourseModel[];
   @Input() editable?: boolean = false;
+
+  showCourseLabel!: string;
+
+  constructor(private buttonLabelService: ButtonLabelService) {
+    this.showCourseLabel = this.buttonLabelService.getLabel("SHOW_COURSE");
+  }
 }
