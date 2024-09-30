@@ -8,10 +8,7 @@ import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./button.component.scss"],
 })
 export class ButtonComponent {
-  private library: FaIconLibrary;
-
-  constructor(library: FaIconLibrary) {
-    this.library = library;
+  constructor(private library: FaIconLibrary) {
     library.addIconPacks(fas);
   }
 
@@ -23,6 +20,4 @@ export class ButtonComponent {
       ? this.library.getIconDefinition("fas", this.iconName as IconName)
       : "";
   }
-
-  // Use the names for the inputs `buttonText` and `iconName`.
 }
