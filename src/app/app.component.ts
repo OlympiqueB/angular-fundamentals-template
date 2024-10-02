@@ -11,11 +11,5 @@ export class AppComponent {
   title = "courses-app";
   mockedCoursesList = mockedCoursesList;
 
-  loginButtonLabel!: string;
-  newCourseButtonLabel!: string;
-
-  constructor(private buttonLabelService: ButtonLabelService) {
-    this.loginButtonLabel = this.buttonLabelService.getLabel("LOGIN");
-    this.newCourseButtonLabel = this.buttonLabelService.getLabel("NEW_COURSE");
-  }
+  constructor(protected buttonLabelService: ButtonLabelService) {}
 }
