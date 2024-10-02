@@ -3,14 +3,12 @@ import { CommonModule } from '@angular/common';
 import { CourseInfoComponent } from './course-info.component';
 import { SharedModule } from '@app/shared/shared.module';
 
-const components = [CourseInfoComponent]
-
 @NgModule({
-  declarations: [components],
+  declarations: [CourseInfoComponent],
   imports: [
     CommonModule,
     SharedModule
   ],
-  exports: [components]
+  exports: [CourseInfoComponent]
 })
 export class CourseInfoModule { }
