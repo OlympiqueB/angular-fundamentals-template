@@ -1,7 +1,7 @@
 <div *ngFor="let course of courses">
   <app-course-card [courseObject]="course" [isEditable]="editable">
-    <app-button courseShow [buttonText]="showCourseLabel"></app-button>
-    <app-button courseEdit [iconName]="'trash-can'"></app-button>
-    <app-button courseDelete [iconName]="'pencil'"></app-button>
+    <app-button courseShow [buttonText]="buttonLabelService.getLabel('SHOW_COURSE')"></app-button>
+    <app-button courseEdit [iconName]="buttonLabelService.getLabel('TRASH_CAN')"></app-button>
+    <app-button courseDelete [iconName]="buttonLabelService.getLabel('PENCIL')"></app-button>
   </app-course-card>
 </div>

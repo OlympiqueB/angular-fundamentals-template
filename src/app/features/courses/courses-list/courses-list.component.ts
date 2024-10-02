@@ -11,9 +11,5 @@ export class CoursesListComponent {
   @Input() courses?: CourseModel[];
   @Input() editable?: boolean = false;
 
-  showCourseLabel!: string;
-
-  constructor(private buttonLabelService: ButtonLabelService) {
-    this.showCourseLabel = this.buttonLabelService.getLabel("SHOW_COURSE");
-  }
+  constructor(protected buttonLabelService: ButtonLabelService) {}
 }
