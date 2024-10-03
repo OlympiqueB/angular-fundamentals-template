@@ -1,13 +1,6 @@
 import { Component, Input } from "@angular/core";
-
-interface CourseModel {
-  id: string;
-  title: string;
-  description: string;
-  creationDate: string;
-  duration: number;
-  authors: string[];
-}
+import { ButtonLabelService } from "@app/services/button-label.service";
+import { CourseModel } from "@app/shared/models/course.model";
 
 @Component({
   selector: "app-courses-list",
@@ -17,4 +10,6 @@ interface CourseModel {
 export class CoursesListComponent {
   @Input() courses?: CourseModel[];
   @Input() editable?: boolean = false;
+
+  constructor(protected buttonLabelService: ButtonLabelService) {}
 }

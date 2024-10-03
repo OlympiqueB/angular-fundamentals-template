@@ -10,10 +10,7 @@ import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
 export class ButtonComponent {
   @Output() clicked = new EventEmitter<void>();
 
-  private library: FaIconLibrary;
-
-  constructor(library: FaIconLibrary) {
-    this.library = library;
+  constructor(private library: FaIconLibrary) {
     library.addIconPacks(fas);
   }
 
