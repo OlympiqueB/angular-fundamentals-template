@@ -31,7 +31,9 @@ export class NumberOnlyDirective implements ControlValueAccessor {
 
     inputValue = inputValue.replace(/[^0-9]/g, '');
 
-    if (inputValue.length > 1) {
+    if (inputValue === '00') {
+      inputValue = '0';
+    } else if (inputValue.length > 1) {
       inputValue = inputValue.replace(/^0+/, '');
     }
 
