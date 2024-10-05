@@ -24,6 +24,7 @@
   &__authors {
     margin-top: 8px;
     display: flex;
+    flex-direction: column;
 
     &-item {
       margin-right: 10px;
@@ -41,6 +42,15 @@
   flex-direction: row;
   justify-content: flex-end;
   gap: 12px;
+}
+
+.author__buttons {
+  width: fit-content;
+  &__list {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+  }
 }
 
 .flex {
