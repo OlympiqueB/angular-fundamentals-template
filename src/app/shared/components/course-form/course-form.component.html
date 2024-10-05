@@ -81,6 +81,11 @@
                 id="newAuthor"
                 formControlName="newAuthor"
                 placeholder="Input Author Name"
+                [ngClass]="{
+                  invalid:
+                    (newAuthor?.invalid || !newAuthor?.value) &&
+                    (newAuthor?.touched || this.newAuthorSubmitted)
+                }"
               />
               <app-button
                 id="createAuthor"
