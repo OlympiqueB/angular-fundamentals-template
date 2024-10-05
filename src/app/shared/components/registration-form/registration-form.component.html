@@ -1,6 +1,6 @@
 <h2 class="text-align-center">Registration</h2>
 <div class="app-plate">
-  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registrationForm">
     <div class="registration-form">
       <div>
         <div class="form__control">
@@ -11,6 +11,7 @@
             id="name"
             formControlName="name"
             placeholder="Input text"
+            [ngClass]="{ invalid: isInvalid(name) }"
           />
           <span
             *ngIf="name?.errors?.['required'] && 
@@ -36,6 +37,7 @@
             formControlName="email"
             placeholder="Input text"
             emailValidator
+            [ngClass]="{ invalid: isInvalid(email) }"
           />
           <span
             *ngIf="email?.errors?.['required'] && 
@@ -60,6 +62,7 @@
             id="password"
             formControlName="password"
             placeholder="Input text"
+            [ngClass]="{ invalid: isInvalid(password) }"
           />
           <span
             *ngIf="password?.errors?.['required'] && 
@@ -72,7 +75,7 @@
       </div>
       <div class="form__action">
         <app-button
-          (clicked)="onRegistrateClick()"
+          (clicked)="onSubmit()"
           buttonText="Registrate"
         ></app-button>
       </div>

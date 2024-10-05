@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 
 @Component({
   selector: "app-registration-form",
@@ -21,34 +26,31 @@ export class RegistrationFormComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.registrationForm.valid) {
-      console.log(this.registrationForm);
-      console.log("Name:", this.name);
-      console.log("Email:", this.email);
-      console.log("Password:", this.password);
-    } else {
-      console.log(this.registrationForm);
+      const newUser = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+      };
+      console.log(newUser);
 
+      this.registrationForm.reset();
+      this.submitted = false;
+    } else {
       console.log("Form is invalid");
     }
   }
 
-  onRegistrateClick() {
-    const form = document.querySelector("form");
-    const submitEvent = new Event("submit", {
-      bubbles: true,
-      cancelable: true,
-    });
-
-    form?.dispatchEvent(submitEvent);
+  isInvalid(control: FormControl | null): boolean {
+    return !!control && control.invalid && (control.touched || this.submitted);
   }
 
   get name() {
-    return this.registrationForm.get("name");
+    return this.registrationForm.get("name") as FormControl;
   }
   get email() {
-    return this.registrationForm.get("email");
+    return this.registrationForm.get("email") as FormControl;
   }
   get password() {
-    return this.registrationForm.get("password");
+    return this.registrationForm.get("password") as FormControl;
   }
 }

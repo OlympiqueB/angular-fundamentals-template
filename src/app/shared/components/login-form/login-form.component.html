@@ -1,6 +1,6 @@
 <h2 class="text-align-center">Login</h2>
 <div class="app-plate">
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+  <form #loginForm="ngForm" [ngClass]="{ submitted: submitted }">
     <div class="login-form">
       <div>
         <div class="form__control">
@@ -14,12 +14,10 @@
             required
             #emailControl="ngModel"
             placeholder="Input text"
+            [ngClass]="{ invalid: isInvalid(emailControl) }"
           />
           <span
-            *ngIf="
-              emailControl.invalid &&
-              (emailControl.touched || loginForm.submitted)
-            "
+            *ngIf="emailControl.invalid && (emailControl.touched || submitted)"
             class="text-danger"
           >
             <span *ngIf="emailControl.errors?.['required']"
@@ -40,11 +38,11 @@
             required
             #passwordControl="ngModel"
             placeholder="Input text"
+            [ngClass]="{ invalid: isInvalid(passwordControl) }"
           />
           <span
             *ngIf="
-              passwordControl.invalid &&
-              (passwordControl.touched || loginForm.submitted)
+              passwordControl.invalid && (passwordControl.touched || submitted)
             "
             class="text-danger"
           >
@@ -56,7 +54,7 @@
       </div>
       <div>
         <div class="form__action">
-          <app-button buttonText="Login" (clicked)="onLoginClick()"></app-button>
+          <app-button buttonText="Login" (clicked)="onSubmit()"></app-button>
         </div>
         <div class="form__text">
           If you don't have an account you may <strong>Registration</strong>

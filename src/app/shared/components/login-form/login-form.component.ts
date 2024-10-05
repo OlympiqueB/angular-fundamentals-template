@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { NgControl, NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-login-form",
@@ -8,23 +8,24 @@ import { NgForm } from "@angular/forms";
 })
 export class LoginFormComponent {
   @ViewChild("loginForm") public loginForm!: NgForm;
+  submitted = false;
 
   onSubmit() {
+    this.submitted = true;
     if (this.loginForm.valid) {
-      console.log("Email:", this.loginForm.value.email);
-      console.log("Password:", this.loginForm.value.password);
+      const loginUser = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      };
+      console.log(loginUser);
+
+      this.loginForm.resetForm();
     } else {
       console.log("Form is invalid");
     }
   }
 
-  onLoginClick() {
-    const form = document.querySelector("form");
-    const submitEvent = new Event("submit", {
-      bubbles: true,
-      cancelable: true,
-    });
-
-    form?.dispatchEvent(submitEvent);
+  isInvalid(control: any): NgControl {
+    return control.invalid && (control.touched || this.submitted);
   }
 }
