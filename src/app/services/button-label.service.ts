@@ -11,6 +11,8 @@ export class ButtonLabelService {
     SHOW_COURSE: "Show Course",
     TRASH_CAN: "trash-can",
     PENCIL: "pencil",
+    CREATE_COURSE: "Create Course",
+    CANCEL: "Cancel",
   };
 
   getLabel(key: string): string {
