@@ -16,17 +16,17 @@
             placeholder="Input text"
             [ngClass]="{ invalid: isInvalid(emailControl) }"
           />
+
           <span
-            *ngIf="emailControl.invalid && (emailControl.touched || submitted)"
+            *ngIf="emailControl.errors?.['required'] && (emailControl.touched || this.submitted)"
             class="text-danger"
+            >Email is required.</span
           >
-            <span *ngIf="emailControl.errors?.['required']"
-              >Email is required.</span
-            >
-            <span *ngIf="emailControl.errors?.['invalidEmail']"
-              >Invalid email format.</span
-            >
-          </span>
+          <span
+            *ngIf="emailControl.errors?.['invalidEmail']  && (emailControl.touched || this.submitted)"
+            class="text-danger"
+            >Invalid email format.</span
+          >
         </div>
         <div class="form__control">
           <label for="password">Password</label>
@@ -41,15 +41,10 @@
             [ngClass]="{ invalid: isInvalid(passwordControl) }"
           />
           <span
-            *ngIf="
-              passwordControl.invalid && (passwordControl.touched || submitted)
-            "
+            *ngIf="passwordControl.errors?.['required'] && (passwordControl.touched || submitted)"
             class="text-danger"
+            >Password is required.</span
           >
-            <span *ngIf="passwordControl.errors?.['required']"
-              >Password is required.</span
-            >
-          </span>
         </div>
       </div>
       <div>
