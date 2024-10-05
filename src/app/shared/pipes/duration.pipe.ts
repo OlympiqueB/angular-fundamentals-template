@@ -5,7 +5,6 @@ import { Pipe } from "@angular/core";
 })
 export class DurationPipe {
   transform(duration: number) {
-    console.log(duration);
     if (!duration || duration == 0) {
       return "0:00";
     }
