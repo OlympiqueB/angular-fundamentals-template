@@ -13,6 +13,7 @@ export class ButtonLabelService {
     PENCIL: "pencil",
     CREATE_COURSE: "Create Course",
     CANCEL: "Cancel",
+    SEARCH: "Search",
   };
 
   getLabel(key: string): string {
