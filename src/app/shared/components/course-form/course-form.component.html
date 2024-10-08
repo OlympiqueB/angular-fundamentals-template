@@ -124,6 +124,7 @@
                   <span (click)="onRemoveAuthorClick(author)">-</span>
                 </div>
               </div>
+              <div *ngIf="courseAuthorArray.length === 0">No authors added</div>
             </div>
           </div>
         </div>
