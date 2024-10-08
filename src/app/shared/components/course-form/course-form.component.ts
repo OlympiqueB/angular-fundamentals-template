@@ -21,8 +21,8 @@ import { v4 as uuidv4 } from "uuid";
 })
 export class CourseFormComponent implements OnInit {
   constructor(
-    public fb: FormBuilder,
-    public library: FaIconLibrary,
+    private fb: FormBuilder,
+    private library: FaIconLibrary,
     public buttonLabelService: ButtonLabelService
   ) {
     library.addIconPacks(fas);
