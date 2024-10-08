@@ -76,6 +76,7 @@ export class CourseFormComponent implements OnInit {
       this.fullAuthorArray = mockedAuthorsList;
     } else {
       this.courseForm.markAllAsTouched();
+      this.author.reset();
     }
   }
 
