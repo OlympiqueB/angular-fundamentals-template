@@ -18,8 +18,6 @@ export class LoginFormComponent {
         password: this.loginForm.value.password,
       };
       this.loginForm.resetForm();
-    } else {
-      
     }
   }
 
