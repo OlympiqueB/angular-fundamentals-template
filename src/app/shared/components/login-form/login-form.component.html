@@ -28,18 +28,31 @@
             >Invalid email format.</span
           >
         </div>
-        <div class="form__control">
+        <div class="form__control password">
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            ngModel
-            required
-            #passwordControl="ngModel"
-            placeholder="Input text"
-            [ngClass]="{ invalid: isInvalid(passwordControl) }"
-          />
+          <div class="password__container">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              ngModel
+              required
+              #passwordControl="ngModel"
+              placeholder="Input text"
+              [ngClass]="{ invalid: isInvalid(passwordControl) }"
+              togglePassword
+              #toggle="togglePassword"
+            />
+            <span class="password__eye" (click)="toggle.toggle()"
+              ><fa-icon
+                [icon]="
+                  toggle.isPasswordVisible
+                    ? icon(buttonLabelService.getLabel('EYE_SLASH'))!
+                    : icon(buttonLabelService.getLabel('EYE'))!
+                "
+              ></fa-icon
+            ></span>
+          </div>
           <span
             *ngIf="passwordControl.errors?.['required'] && (passwordControl.touched || submitted)"
             class="text-danger"
