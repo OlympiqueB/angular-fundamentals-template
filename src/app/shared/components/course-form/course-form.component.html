@@ -82,8 +82,9 @@
                 placeholder="Input Author Name"
                 [ngClass]="{
                   invalid:
-                    (newAuthor?.invalid || !newAuthor?.value) &&
-                    (newAuthor?.touched || this.newAuthorSubmitted)
+                    (newAuthor?.invalid &&
+                      (newAuthor?.touched || this.newAuthorSubmitted)) ||
+                    (newAuthor?.value === '' && this.newAuthorSubmitted)
                 }"
               />
               <app-button
@@ -97,7 +98,7 @@
             (newAuthor?.touched || newAuthorSubmitted)"
               id="durationErrorMessage"
               class="text-danger"
-              >New author should contain only latin letters and numbers. <br />
+              >New author should contain only latin letters and numbers, separated by single spaces. <br />
             </span>
             <span
               *ngIf="newAuthor?.errors?.['minlength'] && 

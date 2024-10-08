@@ -48,7 +48,7 @@ export class CourseFormComponent implements OnInit {
       author: new FormGroup({
         newAuthor: new FormControl("", [
           Validators.minLength(2),
-          Validators.pattern(/^[A-Za-z0-9]+$/),
+          Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
         ]),
       }),
       authors: new FormArray([]),
