@@ -17,11 +17,9 @@ export class LoginFormComponent {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       };
-      console.log(loginUser);
-
       this.loginForm.resetForm();
     } else {
-      console.log("Form is invalid");
+      
     }
   }
 

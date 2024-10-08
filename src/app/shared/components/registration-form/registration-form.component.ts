@@ -31,12 +31,10 @@ export class RegistrationFormComponent implements OnInit {
         email: this.email,
         password: this.password,
       };
-      console.log(newUser);
 
       this.registrationForm.reset();
       this.submitted = false;
     } else {
-      console.log("Form is invalid");
     }
   }
 

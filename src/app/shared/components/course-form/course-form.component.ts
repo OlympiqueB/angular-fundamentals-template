@@ -70,8 +70,6 @@ export class CourseFormComponent implements OnInit {
         authors: this.authors.value,
       };
 
-      console.log(newCourse);
-
       this.courseForm.reset();
       this.submitted = false;
       this.courseAuthorArray = [];
@@ -90,7 +88,6 @@ export class CourseFormComponent implements OnInit {
         name: this.newAuthor.value,
       };
       this.fullAuthorArray.push(newAuthor);
-      console.log(newAuthor);
 
       this.author.reset();
       this.newAuthorSubmitted = false;
