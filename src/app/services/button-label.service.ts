@@ -14,6 +14,8 @@ export class ButtonLabelService {
     CREATE_COURSE: "Create Course",
     CANCEL: "Cancel",
     SEARCH: "Search",
+    EYE: 'eye',
+    EYE_SLASH: 'eye-slash'
   };
 
   getLabel(key: string): string {
