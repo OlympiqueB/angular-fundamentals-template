@@ -1,5 +1,4 @@
 import { ButtonLabelService } from "./services/button-label.service";
-import { mockedCoursesList } from "./shared/mocks/mocks";
 import { Component } from "@angular/core";
 
 @Component({
@@ -9,7 +8,6 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
   title = "courses-app";
-  mockedCoursesList = mockedCoursesList;
 
   constructor(protected buttonLabelService: ButtonLabelService) {}
 }

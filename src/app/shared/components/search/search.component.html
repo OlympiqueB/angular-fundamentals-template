@@ -1,4 +1,4 @@
-<div class="app-search">
-  <input type="text" placeholder="Input text">
-  <app-button></app-button>
-</div>
+<form #searchForm="ngForm" class="app-search">
+  <input type="text" [placeholder]="placeholder" />
+  <app-button [buttonText]="buttonLabelService.getLabel('SEARCH')"></app-button>
+</form>

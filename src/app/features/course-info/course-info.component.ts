@@ -9,9 +9,6 @@ import { CourseModel } from "@app/shared/models/course.model";
 })
 export class CourseInfoComponent {
   @Input() course!: CourseModel;
-  backLabel!: string;
 
-  constructor(private buttonLabelService: ButtonLabelService) {
-    this.backLabel = this.buttonLabelService.getLabel("BACK");
-  }
+  constructor(public buttonLabelService: ButtonLabelService) {}
 }

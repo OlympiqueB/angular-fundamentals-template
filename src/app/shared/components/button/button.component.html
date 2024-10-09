@@ -1,5 +1,6 @@
 <div
   class="app-button"
+  (click)="onClick()"
   [ngClass]="iconName && !buttonText ? 'app-button__single-icon' : ''"
 >
   {{ buttonText }}
