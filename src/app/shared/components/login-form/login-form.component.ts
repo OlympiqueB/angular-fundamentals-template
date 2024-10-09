@@ -17,9 +17,7 @@ export class LoginFormComponent {
     public buttonLabelService: ButtonLabelService,
     private library: FaIconLibrary
   ) {
-    {
-      library.addIconPacks(fas);
-    }
+    library.addIconPacks(fas);
   }
 
   onSubmit() {
