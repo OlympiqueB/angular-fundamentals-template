@@ -4,8 +4,7 @@ import { BehaviorSubject, Observable, tap } from "rxjs";
 import { SessionStorageService } from "./session-storage.service";
 import { LoginResponse, LoginUserModel } from "../models/login.model";
 import { RegistrationResponse, RegistrationUserModel } from "../models/registation.model";
-
-const BASE_URL = "http://localhost:4200/";
+import { BASE_URL } from "@app/baseurl";
 
 @Injectable({
   providedIn: "root",
