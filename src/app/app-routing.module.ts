@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 export const routes: Routes = [
+  { path: "", redirectTo: "courses", pathMatch: "prefix" },
   {
     path: "login",
     loadChildren: () =>
@@ -10,7 +11,9 @@ export const routes: Routes = [
   {
     path: "registration",
     loadChildren: () =>
-      import("./features/registration/registration.module").then((m) => m.RegistrationModule),
+      import("./features/registration/registration.module").then(
+        (m) => m.RegistrationModule
+      ),
   },
   {
     path: "courses",
