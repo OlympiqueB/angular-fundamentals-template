@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   login(user: LoginUserModel) {
-    return this.http.post<LoginResponse>(BASE_URL + "login", user).pipe(
+    return this.http.post<LoginResponse>(BASE_URL + "/login", user).pipe(
       tap((response: LoginResponse) => {
         if (response.result) {
           this.sessionStorageService.setToken(response.result);
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.delete(BASE_URL + "logout").pipe(
+    return this.http.delete(BASE_URL + "/logout").pipe(
       tap(() => {
         this.sessionStorageService.deleteToken();
         this.isAuthorised$$.next(false);
@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   register(user: RegistrationUserModel) {
-    return this.http.post<RegistrationResponse>(BASE_URL + "register", user);
+    return this.http.post<RegistrationResponse>(BASE_URL + "/register", user);
   }
 
   get isAuthorised() {
