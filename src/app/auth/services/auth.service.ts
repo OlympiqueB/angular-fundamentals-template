@@ -1,30 +1,61 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, tap } from "rxjs";
+import { SessionStorageService } from "./session-storage.service";
+import { LoginResponse, LoginUserModel } from "../models/login.model";
+import { RegistrationResponse, RegistrationUserModel } from "../models/registation.model";
+
+const BASE_URL = "http://localhost:4200/";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-    login(user: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  private isAuthorised$$!: BehaviorSubject<boolean>;
+  public isAuthorised$!: Observable<boolean>;
 
-    logout() {
-        // Add your code here
-    }
+  constructor(
+    private http: HttpClient,
+    private sessionStorageService: SessionStorageService
+  ) {
+    const isAuthorised = !!this.sessionStorageService.getToken();
+    this.isAuthorised$$ = new BehaviorSubject<boolean>(isAuthorised);
+    this.isAuthorised$ = this.isAuthorised$$.asObservable();
+  }
 
-    register(user: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  login(user: LoginUserModel) {
+    return this.http.post<LoginResponse>(BASE_URL + "login", user).pipe(
+      tap((response: LoginResponse) => {
+        if (response.result) {
+          this.sessionStorageService.setToken(response.result);
+          this.isAuthorised$$.next(true);
+        }
+      })
+    );
+  }
 
-    get isAuthorised() {
-        // Add your code here. Get isAuthorized$$ value
-    }
+  logout() {
+    return this.http.delete(BASE_URL + "logout").pipe(
+      tap(() => {
+        this.sessionStorageService.deleteToken();
+        this.isAuthorised$$.next(false);
+      })
+    );
+  }
 
-    set isAuthorised(value: boolean) {
-        // Add your code here. Change isAuthorized$$ value
-    }
+  register(user: RegistrationUserModel) {
+    return this.http.post<RegistrationResponse>(BASE_URL + "register", user);
+  }
 
-    getLoginUrl() {
-        // Add your code here
-    }
+  get isAuthorised() {
+    return this.isAuthorised$$.getValue();
+  }
+
+  set isAuthorised(value: boolean) {
+    this.isAuthorised$$.next(value);
+  }
+
+  getLoginUrl() {
+    // Add your code here
+  }
 }
