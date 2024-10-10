@@ -11,6 +11,7 @@ import { CoursesModule } from './features/courses/courses.module';
 import { CourseInfoModule } from './features/course-info/course-info.module';
 import { ButtonLabelService } from './services/button-label.service';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,8 @@ import { AppRoutingModule } from './app-routing.module';
     FontAwesomeModule,
     CoursesModule,
     CourseInfoModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService, ButtonLabelService],
   bootstrap: [AppComponent],
