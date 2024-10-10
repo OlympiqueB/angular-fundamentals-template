@@ -10,6 +10,7 @@ import { CoursesService } from '@app/services/courses.service';
 import { CoursesModule } from './features/courses/courses.module';
 import { CourseInfoModule } from './features/course-info/course-info.module';
 import { ButtonLabelService } from './services/button-label.service';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,8 @@ import { ButtonLabelService } from './services/button-label.service';
     SharedModule,
     FontAwesomeModule,
     CoursesModule,
-    CourseInfoModule
+    CourseInfoModule,
+    AppRoutingModule
   ],
   providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService, ButtonLabelService],
   bootstrap: [AppComponent],
