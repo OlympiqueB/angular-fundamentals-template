@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { RegistrationUserModel } from "@app/auth/models/registation.model";
+import { AuthService } from "@app/auth/services/auth.service";
 
 @Component({
   selector: "app-registration-form",
@@ -14,6 +12,8 @@ import {
 export class RegistrationFormComponent implements OnInit {
   registrationForm!: FormGroup;
   submitted = false;
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup({
@@ -26,15 +26,16 @@ export class RegistrationFormComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.registrationForm.valid) {
-      const newUser = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
+      const newUser: RegistrationUserModel = {
+        name: this.name.value,
+        email: this.email.value,
+        password: this.password.value,
       };
 
-      this.registrationForm.reset();
-      this.submitted = false;
-    } else {
+      this.authService.register(newUser).subscribe({
+        next: () => this.router.navigate(["/login"]),
+        error: (error) => console.error("Registration error ", error),
+      });
     }
   }
 
