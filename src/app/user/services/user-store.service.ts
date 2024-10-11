@@ -15,12 +15,13 @@ export class UserStoreService {
   constructor(private userService: UserService) {}
 
   getUser() {
-    this.userService.getUser().pipe(
-      tap((res: any) => {
+    this.userService.getUser().subscribe({
+      next: (res: any) => {
         this.name$$.next(res.result.name);
         this.isAdmin$$.next(res.result.role === "admin");
-      })
-    );
+      },
+      error: (error) => console.error("user-store getUser error ", error),
+    });
   }
 
   get isAdmin() {

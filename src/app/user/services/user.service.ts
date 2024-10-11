@@ -9,8 +9,6 @@ import { tap } from "rxjs";
 export class UserService {
   constructor(private http: HttpClient) {}
   getUser() {
-    return this.http
-      .get(BASE_URL + "/users/me")
-      .pipe(tap((res) => console.log(res)));
+    return this.http.get(BASE_URL + "/users/me");
   }
 }
