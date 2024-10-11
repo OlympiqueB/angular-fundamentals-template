@@ -1,6 +1,13 @@
 <app-header>
   <div class="header-right-content">
-    <app-button [buttonText]="buttonLabelService.getLabel('LOGIN')"></app-button>
+    <app-button
+      [buttonText]="
+        buttonLabelService.getLabel(
+          authService.isAuthorised ? 'LOGOUT' : 'LOGIN'
+        )
+      "
+      (clicked)="onLogoutClick()"
+    ></app-button>
   </div>
 </app-header>
 
@@ -15,7 +22,9 @@
     <app-button [buttonText]="buttonLabelService.getLabel('NEW_COURSE')"></app-button>
   </app-info> -->
 
-  <app-courses></app-courses>
+  <!-- <app-courses></app-courses> -->
+
+  <router-outlet></router-outlet>
 
   <!-- <app-course-info [course]="mockedCoursesList[0]"></app-course-info> -->
 

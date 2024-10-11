@@ -1,5 +1,8 @@
 import { Component, ViewChild } from "@angular/core";
 import { NgControl, NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
+import { LoginUserModel } from "@app/auth/models/login.model";
+import { AuthService } from "@app/auth/services/auth.service";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +18,9 @@ export class LoginFormComponent {
 
   constructor(
     public buttonLabelService: ButtonLabelService,
-    private library: FaIconLibrary
+    private authService: AuthService,
+    private library: FaIconLibrary,
+    private router: Router
   ) {
     library.addIconPacks(fas);
   }
@@ -23,12 +28,18 @@ export class LoginFormComponent {
   onSubmit() {
     this.submitted = true;
     if (this.loginForm.valid) {
-      const loginUser = {
+      const loginUser: LoginUserModel = {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       };
-      this.loginForm.resetForm();
-      this.submitted = false;
+      this.authService.login(loginUser).subscribe(
+        () => {
+          this.router.navigate(["/courses"]);
+        },
+        (error) => {
+          console.error("Login failed", error);
+        }
+      );
     }
   }
 
