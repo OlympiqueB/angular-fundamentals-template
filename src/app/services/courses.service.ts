@@ -36,15 +36,14 @@ export class CoursesService {
   }
 
   getAllAuthors() {
-    return this.http.get(BASE_URL + "/authors/");
-
+    return this.http.get(BASE_URL + "/authors/all");
   }
 
   createAuthor(name: string) {
-    // Add your code here
+    return this.http.post(BASE_URL + "/authors/add", { name: name });
   }
 
   getAuthorById(id: string) {
-    // Add your code here
+    return this.http.get(BASE_URL + "/authors/" + id);
   }
 }

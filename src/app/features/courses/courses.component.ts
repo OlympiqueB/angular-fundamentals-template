@@ -14,6 +14,7 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.coursesStoreService.getAll();
+    this.coursesStoreService.getAllAuthors();
     this.courses$ = this.coursesStoreService.courses$;
   }
 }

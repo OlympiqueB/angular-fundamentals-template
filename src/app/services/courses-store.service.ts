@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, finalize, Observable } from "rxjs";
 import { CoursesService } from "./courses.service";
 import { CourseModel } from "@app/shared/models/course.model";
+import { AuthorModel } from "@app/shared/models/author.model";
 
 @Injectable({
   providedIn: "root",
@@ -10,8 +11,11 @@ export class CoursesStoreService {
   private isLoading$$ = new BehaviorSubject<boolean>(false);
   private courses$$ = new BehaviorSubject<CourseModel[]>([]);
 
+  private authors$$ = new BehaviorSubject<AuthorModel[]>([]);
+
   public isLoading$: Observable<boolean> = this.isLoading$$.asObservable();
   public courses$: Observable<CourseModel[]> = this.courses$$.asObservable();
+  public authors$: Observable<AuthorModel[]> = this.authors$$.asObservable();
 
   constructor(private coursesService: CoursesService) {}
 
@@ -73,14 +77,18 @@ export class CoursesStoreService {
   // }
 
   getAllAuthors() {
-    // Add your code here
+    this.coursesService.getAllAuthors().subscribe((res: any) => {
+      this.authors$$.next(res.result);
+    });
   }
 
   createAuthor(name: string) {
-    // Add your code here
+    this.coursesService
+      .createAuthor(name)
+      .subscribe(() => this.getAllAuthors());
   }
 
   getAuthorById(id: string) {
-    // Add your code here
+    return this.coursesService.getAuthorById(id);
   }
 }

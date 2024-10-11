@@ -7,12 +7,11 @@ import {
   Validators,
 } from "@angular/forms";
 import { ButtonLabelService } from "@app/services/button-label.service";
-import { mockedAuthorsList } from "@app/shared/mocks/mocks";
+import { CoursesStoreService } from "@app/services/courses-store.service";
 import { AuthorModel } from "@app/shared/models/author.model";
 import { CourseModel } from "@app/shared/models/course.model";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { v4 as uuidv4 } from "uuid";
 
 @Component({
   selector: "app-course-form",
@@ -23,6 +22,7 @@ export class CourseFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private library: FaIconLibrary,
+    private coursesStoreService: CoursesStoreService,
     public buttonLabelService: ButtonLabelService
   ) {
     library.addIconPacks(fas);
@@ -55,25 +55,30 @@ export class CourseFormComponent implements OnInit {
     });
 
     this.courseAuthorArray = [];
-    this.fullAuthorArray = mockedAuthorsList;
+    this.coursesStoreService.getAllAuthors();
+    this.coursesStoreService.authors$.subscribe({
+      next: (a: any) => this.fullAuthorArray = a,
+    })
   }
 
   onCourseSubmit() {
     this.submitted = true;
     if (this.courseForm.valid) {
       const newCourse: CourseModel = {
-        id: uuidv4(),
+        id: '',
         title: this.title?.value,
         description: this.description?.value,
         creationDate: new Date().toDateString(),
-        duration: this.duration?.value,
-        authors: this.authors.value,
+        duration: Number(this.duration?.value),
+        authors: this.authors.value.map((a: AuthorModel) => a.id),
       };
+      console.log(newCourse);
+      this.coursesStoreService.createCourse(newCourse);
 
       this.courseForm.reset();
       this.submitted = false;
       this.courseAuthorArray = [];
-      this.fullAuthorArray = mockedAuthorsList;
+      this.coursesStoreService.getAllAuthors();
     } else {
       this.courseForm.markAllAsTouched();
       this.author.reset();
@@ -84,11 +89,8 @@ export class CourseFormComponent implements OnInit {
     this.newAuthorSubmitted = true;
 
     if (this.newAuthor?.valid && this.newAuthor.value) {
-      const newAuthor: AuthorModel = {
-        id: uuidv4(),
-        name: this.newAuthor.value,
-      };
-      this.fullAuthorArray.push(newAuthor);
+      this.coursesStoreService.createAuthor(this.newAuthor.value);
+      this.coursesStoreService.getAllAuthors();
 
       this.author.reset();
       this.newAuthorSubmitted = false;
