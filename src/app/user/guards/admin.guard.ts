@@ -16,7 +16,7 @@ export class AdminGuard implements CanActivate {
     | UrlTree {
     const isAdmin = this.userStoreService.isAdmin;
 
-    if (!isAdmin) {
+    if (isAdmin) {
       return true;
     } else {
       return this.router.createUrlTree(["/courses"]);
