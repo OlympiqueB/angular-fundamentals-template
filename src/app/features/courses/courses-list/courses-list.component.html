@@ -1,4 +1,4 @@
-<div *ngFor="let course of courses">
+<div *ngFor="let course of courses$ | async">
   <app-course-card [courseObject]="course" [isEditable]="editable">
     <app-button courseShow [buttonText]="buttonLabelService.getLabel('SHOW_COURSE')"></app-button>
     <app-button courseEdit [iconName]="buttonLabelService.getLabel('TRASH_CAN')"></app-button>

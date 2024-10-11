@@ -1,42 +1,86 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, finalize, Observable } from "rxjs";
+import { CoursesService } from "./courses.service";
+import { CourseModel } from "@app/shared/models/course.model";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class CoursesStoreService {
-    getAll(){
-        // Add your code here
-    }
+  private isLoading$$ = new BehaviorSubject<boolean>(false);
+  private courses$$ = new BehaviorSubject<CourseModel[]>([]);
 
-    createCourse(course: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  public isLoading$: Observable<boolean> = this.isLoading$$.asObservable();
+  public courses$: Observable<CourseModel[]> = this.courses$$.asObservable();
 
-    getCourse(id: string) {
-        // Add your code here
-    }
+  constructor(private coursesService: CoursesService) {}
 
-    editCourse(id: string, course: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  getAll(): void {
+    this.isLoading$$.next(true);
+    this.coursesService
+      .getAll()
+      .pipe(finalize(() => this.isLoading$$.next(false)))
+      .subscribe((res: any) => {
+        this.courses$$.next(res.result);
+      });
+  }
 
-    deleteCourse(id: string) {
-        // Add your code here
-    }
+  createCourse(course: any) {
+    this.isLoading$$.next(true);
+    this.coursesService
+      .createCourse(course)
+      .pipe(finalize(() => this.isLoading$$.next(false)))
+      .subscribe(() => {
+        this.getAll();
+      });
+  }
 
-    filterCourses(value: string) {
-        // Add your code here
-    }
+  getCourse(id: string) {
+    return this.coursesService.getCourse(id);
+  }
 
-    getAllAuthors() {
-        // Add your code here
-    }
+  editCourse(id: string, course: CourseModel) {
+    this.isLoading$$.next(true);
+    this.coursesService
+      .editCourse(id, course)
+      .pipe(finalize(() => this.isLoading$$.next(false)))
+      .subscribe(() => {
+        this.getAll();
+      });
+  }
 
-    createAuthor(name: string) {
-        // Add your code here
-    }
+  deleteCourse(id: string) {
+    this.isLoading$$.next(true);
+    this.coursesService
+      .deleteCourse(id)
+      .pipe(finalize(() => this.isLoading$$.next(false)))
+      .subscribe(() => {
+        const currentCourses = this.courses$$.getValue();
+        this.courses$$.next(
+          currentCourses.filter((course) => course.id !== id)
+        );
+      });
+  }
 
-    getAuthorById(id: string) {
-        // Add your code here
-    }
+  // filterCourses(value: string) {
+  //   this.isLoading$$.next(true);
+  //   this.coursesService
+  //     .filterCourses(value)
+  //     .pipe(finalize(() => this.isLoading$$.next(false)))
+  //     .subscribe((filteredCourses: CourseModel[]) => {
+  //       this.courses$$.next(filteredCourses); // Update with filtered data
+  //     });
+  // }
+
+  getAllAuthors() {
+    // Add your code here
+  }
+
+  createAuthor(name: string) {
+    // Add your code here
+  }
+
+  getAuthorById(id: string) {
+    // Add your code here
+  }
 }
