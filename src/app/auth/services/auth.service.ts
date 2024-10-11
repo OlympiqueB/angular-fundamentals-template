@@ -3,7 +3,10 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { SessionStorageService } from "./session-storage.service";
 import { LoginResponse, LoginUserModel } from "../models/login.model";
-import { RegistrationResponse, RegistrationUserModel } from "../models/registation.model";
+import {
+  RegistrationResponse,
+  RegistrationUserModel,
+} from "../models/registation.model";
 import { BASE_URL } from "@app/baseurl";
 
 @Injectable({
@@ -22,7 +25,7 @@ export class AuthService {
     this.isAuthorised$ = this.isAuthorised$$.asObservable();
   }
 
-  login(user: LoginUserModel) {
+  login(user: LoginUserModel): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(BASE_URL + "/login", user).pipe(
       tap((response: LoginResponse) => {
         if (response.result) {
@@ -34,12 +37,19 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.delete(BASE_URL + "/logout").pipe(
-      tap(() => {
-        this.sessionStorageService.deleteToken();
-        this.isAuthorised$$.next(false);
+    return this.http
+      .delete(BASE_URL + "/logout", {
+        headers: {
+          Authorization: this.sessionStorageService.getToken()!,
+          skipAuthInterceptor: "true",
+        },
       })
-    );
+      .pipe(
+        tap(() => {
+          this.sessionStorageService.deleteToken();
+          this.isAuthorised$$.next(false);
+        })
+      );
   }
 
   register(user: RegistrationUserModel) {
