@@ -72,7 +72,6 @@ export class CourseFormComponent implements OnInit {
         duration: Number(this.duration?.value),
         authors: this.authors.value.map((a: AuthorModel) => a.id),
       };
-      console.log(newCourse);
       this.coursesStoreService.createCourse(newCourse);
 
       this.courseForm.reset();
