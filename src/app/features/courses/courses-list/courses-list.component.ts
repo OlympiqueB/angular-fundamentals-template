@@ -1,7 +1,9 @@
+import { CoursesStoreService } from './../../../services/courses-store.service';
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
+import { UserStoreService } from "@app/user/services/user-store.service";
 import { Observable } from "rxjs";
 
 @Component({
@@ -13,5 +15,10 @@ export class CoursesListComponent {
   @Input() courses$!: Observable<CourseModel[]>;
   @Input() editable?: boolean = false;
 
-  constructor(protected buttonLabelService: ButtonLabelService, public router: Router) {}
+  constructor(
+    protected buttonLabelService: ButtonLabelService,
+    protected router: Router,
+    protected userStoreService: UserStoreService,
+    protected coursesStoreService: CoursesStoreService
+  ) {}
 }

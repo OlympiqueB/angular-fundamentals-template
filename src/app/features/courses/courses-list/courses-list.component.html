@@ -6,10 +6,13 @@
       (clicked)="router.navigate(['/courses', course.id])"
     ></app-button>
     <app-button
+      *ngIf="userStoreService.isAdmin"
       courseEdit
       [iconName]="buttonLabelService.getLabel('TRASH_CAN')"
+      (clicked)="coursesStoreService.deleteCourse(course.id)"
     ></app-button>
     <app-button
+      *ngIf="userStoreService.isAdmin"
       courseDelete
       [iconName]="buttonLabelService.getLabel('PENCIL')"
     ></app-button>
