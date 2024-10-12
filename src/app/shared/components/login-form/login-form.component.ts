@@ -1,3 +1,4 @@
+import { UserStoreService } from "@app/user/services/user-store.service";
 import { Component, ViewChild } from "@angular/core";
 import { NgControl, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -20,7 +21,8 @@ export class LoginFormComponent {
     public buttonLabelService: ButtonLabelService,
     private authService: AuthService,
     private library: FaIconLibrary,
-    private router: Router
+    private router: Router,
+    private userStoreService: UserStoreService
   ) {
     library.addIconPacks(fas);
   }
@@ -34,6 +36,7 @@ export class LoginFormComponent {
       };
       this.authService.login(loginUser).subscribe(
         () => {
+          this.userStoreService.getUser();
           this.router.navigate(["/courses"]);
         },
         (error) => {
