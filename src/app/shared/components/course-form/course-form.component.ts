@@ -127,6 +127,7 @@ export class CourseFormComponent implements OnInit {
       this.courseForm.reset();
       this.submitted = false;
       this.courseAuthorArray = [];
+      this.authors.clear();
       this.coursesStoreService.getAllAuthors();
     } else {
       this.courseForm.markAllAsTouched();
