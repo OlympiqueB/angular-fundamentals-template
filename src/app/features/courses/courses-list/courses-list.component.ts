@@ -19,6 +19,14 @@ export class CoursesListComponent {
     protected buttonLabelService: ButtonLabelService,
     protected router: Router,
     protected userStoreService: UserStoreService,
-    protected coursesStoreService: CoursesStoreService
+    private coursesStoreService: CoursesStoreService
   ) {}
+
+  deleteCourse(id: string) {
+    const isConfirmed = window.confirm('Are you sure you want to delete this course?');
+
+    if (isConfirmed) {
+      this.coursesStoreService.deleteCourse(id)
+    }
+  }
 }
