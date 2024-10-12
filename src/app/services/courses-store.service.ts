@@ -66,15 +66,15 @@ export class CoursesStoreService {
       });
   }
 
-  // filterCourses(value: string) {
-  //   this.isLoading$$.next(true);
-  //   this.coursesService
-  //     .filterCourses(value)
-  //     .pipe(finalize(() => this.isLoading$$.next(false)))
-  //     .subscribe((filteredCourses: CourseModel[]) => {
-  //       this.courses$$.next(filteredCourses); // Update with filtered data
-  //     });
-  // }
+  filterCourses(value: string) {
+    this.isLoading$$.next(true);
+    this.coursesService
+      .filterCourses(value)
+      .pipe(finalize(() => this.isLoading$$.next(false)))
+      .subscribe((filteredCourses: any) => {
+        this.courses$$.next(filteredCourses);
+      });
+  }
 
   getAllAuthors() {
     this.coursesService.getAllAuthors().subscribe((res: any) => {
