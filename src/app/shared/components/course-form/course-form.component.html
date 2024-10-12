@@ -1,4 +1,4 @@
-<h2>Create / Edit Course</h2>
+<h2>{{ courseId ? "Edit Course" : "Create Course" }}</h2>
 <form [formGroup]="courseForm">
   <div class="app-plate">
     <div class="course">
@@ -98,7 +98,8 @@
             (newAuthor?.touched || newAuthorSubmitted)"
               id="durationErrorMessage"
               class="text-danger"
-              >New author should contain only latin letters and numbers, separated by single spaces. <br />
+              >New author should contain only latin letters and numbers,
+              separated by single spaces. <br />
             </span>
             <span
               *ngIf="newAuthor?.errors?.['minlength'] && 
@@ -147,7 +148,9 @@
 <div class="form__action">
   <app-button [buttonText]="buttonLabelService.getLabel('CANCEL')"></app-button>
   <app-button
-    [buttonText]="buttonLabelService.getLabel('CREATE_COURSE')"
+    [buttonText]="
+      buttonLabelService.getLabel(courseId ? 'EDIT_COURSE' : 'CREATE_COURSE')
+    "
     (clicked)="onCourseSubmit()"
   ></app-button>
 </div>

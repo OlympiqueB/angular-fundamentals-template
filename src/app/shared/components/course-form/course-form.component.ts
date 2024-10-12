@@ -6,12 +6,14 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CoursesStoreService } from "@app/services/courses-store.service";
 import { AuthorModel } from "@app/shared/models/author.model";
 import { CourseModel } from "@app/shared/models/course.model";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { map, Observable, switchMap } from "rxjs";
 
 @Component({
   selector: "app-course-form",
@@ -23,6 +25,7 @@ export class CourseFormComponent implements OnInit {
     private fb: FormBuilder,
     private library: FaIconLibrary,
     private coursesStoreService: CoursesStoreService,
+    private route: ActivatedRoute,
     public buttonLabelService: ButtonLabelService
   ) {
     library.addIconPacks(fas);
@@ -31,8 +34,11 @@ export class CourseFormComponent implements OnInit {
   courseForm!: FormGroup;
   fullAuthorArray!: AuthorModel[];
   courseAuthorArray!: AuthorModel[];
-  submitted = false;
-  newAuthorSubmitted = false;
+  submitted: boolean = false;
+  newAuthorSubmitted: boolean = false;
+
+  courseId: string = "";
+  course!: CourseModel | null;
 
   ngOnInit(): void {
     this.courseForm = new FormGroup({
@@ -57,22 +63,66 @@ export class CourseFormComponent implements OnInit {
     this.courseAuthorArray = [];
     this.coursesStoreService.getAllAuthors();
     this.coursesStoreService.authors$.subscribe({
-      next: (a: any) => this.fullAuthorArray = a,
-    })
+      next: (a: any) => (this.fullAuthorArray = a),
+    });
+
+    this.route.params
+      .pipe(
+        switchMap((params) => {
+          this.courseId = params["id"];
+          if (this.courseId) {
+            return this.coursesStoreService.getCourse(
+              this.courseId
+            ) as Observable<any>;
+          }
+          return [];
+        })
+      )
+      .subscribe((res: any) => {
+        if (res.successful) {
+          this.populateForm(res.result);
+        }
+      });
+  }
+
+  private populateForm(course: CourseModel): void {
+    this.courseForm.patchValue({
+      title: course.title,
+      description: course.description,
+      duration: course.duration,
+    });
+
+    this.authors.clear();
+    this.courseAuthorArray = [];
+
+    course.authors.forEach((authorId: string) => {
+      const author = this.fullAuthorArray.find((a) => a.id === authorId);
+      if (author) {
+        this.onAddAuthorClick(author);
+      }
+    });
   }
 
   onCourseSubmit() {
     this.submitted = true;
     if (this.courseForm.valid) {
       const newCourse: CourseModel = {
-        id: '',
+        id: "",
         title: this.title?.value,
         description: this.description?.value,
         creationDate: new Date().toDateString(),
         duration: Number(this.duration?.value),
         authors: this.authors.value.map((a: AuthorModel) => a.id),
       };
-      this.coursesStoreService.createCourse(newCourse);
+
+      if (this.courseId) {
+        this.coursesStoreService.editCourse(this.courseId, {
+          ...newCourse,
+          id: this.courseId,
+        });
+      } else {
+        this.coursesStoreService.createCourse(newCourse);
+      }
 
       this.courseForm.reset();
       this.submitted = false;

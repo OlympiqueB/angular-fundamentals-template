@@ -13,6 +13,7 @@ export class ButtonLabelService {
     TRASH_CAN: "trash-can",
     PENCIL: "pencil",
     CREATE_COURSE: "Create Course",
+    EDIT_COURSE: "Edit Course",
     CANCEL: "Cancel",
     SEARCH: "Search",
     EYE: 'eye',

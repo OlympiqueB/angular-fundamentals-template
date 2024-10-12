@@ -42,11 +42,18 @@ export const routes: Routes = [
       ),
     canLoad: [AuthorizedGuard],
   },
-  // {
-  //   path: "courses/edit/:id",
-  //   loadChildren: () =>
-  //     import("./shared/shared.module").then((m) => m.SharedModule),
-  // },
+  {
+    path: "courses/edit/:id",
+    loadChildren: () =>
+      import("./features/course-form/course-form.module").then((m) => m.CourseFormModule),
+    canActivate: [AdminGuard],
+    canLoad: [AuthorizedGuard],
+  },
+  {
+    path: "**",
+    redirectTo: "courses",
+    pathMatch: "full",
+  },
 ];
 
 @NgModule({
