@@ -45,7 +45,9 @@ export const routes: Routes = [
   {
     path: "courses/edit/:id",
     loadChildren: () =>
-      import("./features/course-form/course-form.module").then((m) => m.CourseFormModule),
+      import("./features/course-form/course-form.module").then(
+        (m) => m.CourseFormModule
+      ),
     canActivate: [AdminGuard],
     canLoad: [AuthorizedGuard],
   },
