@@ -3,6 +3,7 @@ import { Component } from "@angular/core";
 import { UserStoreService } from "./user/services/user-store.service";
 import { AuthService } from "./auth/services/auth.service";
 import { Router } from "@angular/router";
+import { SessionStorageService } from "./auth/services/session-storage.service";
 
 @Component({
   selector: "app-root",
@@ -16,9 +17,12 @@ export class AppComponent {
     protected buttonLabelService: ButtonLabelService,
     public router: Router,
     public userStoreService: UserStoreService,
-    public authService: AuthService
+    public authService: AuthService,
+    private sessionStorageService: SessionStorageService
   ) {
-    this.userStoreService.getUser();
+    if (this.sessionStorageService.getToken()) {
+      this.userStoreService.getUser();
+    }
   }
 
   onLogoutClick() {
