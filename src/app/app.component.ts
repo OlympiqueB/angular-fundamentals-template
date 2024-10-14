@@ -12,6 +12,7 @@ import { SessionStorageService } from "./auth/services/session-storage.service";
 })
 export class AppComponent {
   title = "courses-app";
+  isAuth: boolean = false;
 
   constructor(
     protected buttonLabelService: ButtonLabelService,
@@ -20,6 +21,10 @@ export class AppComponent {
     protected authService: AuthService,
     private sessionStorageService: SessionStorageService
   ) {
+    this.authService.isAuthorised$.subscribe((isAuth) => {
+      this.isAuth = isAuth;
+    });
+
     if (this.sessionStorageService.getToken()) {
       this.userStoreService.getUser();
     }

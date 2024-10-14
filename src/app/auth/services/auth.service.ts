@@ -57,11 +57,12 @@ export class AuthService {
   }
 
   get isAuthorised() {
-    return this.isAuthorised$$.getValue();
-  }
-
-  set isAuthorised(value: boolean) {
-    this.isAuthorised$$.next(value);
+    const token = this.sessionStorageService.getToken();
+    const isAuthorised = !!token;
+    if (this.isAuthorised$$.value !== isAuthorised) {
+      this.isAuthorised$$.next(isAuthorised);
+    }
+    return isAuthorised;
   }
 
   getLoginUrl() {
