@@ -1,6 +1,6 @@
+import { environment } from "./../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BASE_URL } from "@app/baseurl";
 import { CourseModel } from "@app/shared/models/course.model";
 import { forkJoin, map } from "rxjs";
 
@@ -11,23 +11,23 @@ export class CoursesService {
   constructor(private http: HttpClient) {}
 
   getAll() {
-    return this.http.get<CourseModel[]>(BASE_URL + "/courses/all");
+    return this.http.get<CourseModel[]>(environment.BASE_URL + "/courses/all");
   }
 
   createCourse(course: CourseModel) {
-    return this.http.post(BASE_URL + "/courses/add", course);
+    return this.http.post(environment.BASE_URL + "/courses/add", course);
   }
 
   editCourse(id: string, course: CourseModel) {
-    return this.http.put(BASE_URL + "/courses/" + id, course);
+    return this.http.put(environment.BASE_URL + "/courses/" + id, course);
   }
 
   getCourse(id: string) {
-    return this.http.get(BASE_URL + "/courses/" + id);
+    return this.http.get(environment.BASE_URL + "/courses/" + id);
   }
 
   deleteCourse(id: string) {
-    return this.http.delete(BASE_URL + "/courses/" + id);
+    return this.http.delete(environment.BASE_URL + "/courses/" + id);
   }
 
   filterCourses(value: string) {
@@ -42,7 +42,9 @@ export class CoursesService {
 
     const requests = parameters.map((param) => {
       return this.http
-        .get(`${BASE_URL}/courses/filter?${param.key}=${param.value}`)
+        .get(
+          `${environment.BASE_URL}/courses/filter?${param.key}=${param.value}`
+        )
         .pipe(map((res: any) => res.result));
     });
 
@@ -50,14 +52,16 @@ export class CoursesService {
   }
 
   getAllAuthors() {
-    return this.http.get(BASE_URL + "/authors/all");
+    return this.http.get(environment.BASE_URL + "/authors/all");
   }
 
   createAuthor(name: string) {
-    return this.http.post(BASE_URL + "/authors/add", { name: name });
+    return this.http.post(environment.BASE_URL + "/authors/add", {
+      name: name,
+    });
   }
 
   getAuthorById(id: string) {
-    return this.http.get(BASE_URL + "/authors/" + id);
+    return this.http.get(environment.BASE_URL + "/authors/" + id);
   }
 }
