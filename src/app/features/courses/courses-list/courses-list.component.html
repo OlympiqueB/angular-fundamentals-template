@@ -3,7 +3,7 @@
     <app-button
       courseShow
       [buttonText]="buttonLabelService.getLabel('SHOW_COURSE')"
-      (clicked)="router.navigate(['/courses', course.id])"
+      (clicked)="onShowClick(course.id)"
     ></app-button>
     <app-button
       *ngIf="userStoreService.isAdmin"
@@ -15,7 +15,7 @@
       *ngIf="userStoreService.isAdmin"
       courseDelete
       [iconName]="buttonLabelService.getLabel('PENCIL')"
-      (clicked)="router.navigate(['/courses/edit', course.id])"
+      (clicked)="onEditClick(course.id)"
     ></app-button>
   </app-course-card>
 </div>

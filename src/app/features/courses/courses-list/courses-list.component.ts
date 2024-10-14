@@ -1,4 +1,4 @@
-import { CoursesStoreService } from './../../../services/courses-store.service';
+import { CoursesStoreService } from "./../../../services/courses-store.service";
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { ButtonLabelService } from "@app/services/button-label.service";
@@ -23,10 +23,20 @@ export class CoursesListComponent {
   ) {}
 
   deleteCourse(id: string) {
-    const isConfirmed = window.confirm('Are you sure you want to delete this course?');
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this course?"
+    );
 
     if (isConfirmed) {
-      this.coursesStoreService.deleteCourse(id)
+      this.coursesStoreService.deleteCourse(id);
     }
+  }
+
+  onEditClick(id: string) {
+    this.router.navigate(["/courses/edit", id]);
+  }
+
+  onShowClick(id: string) {
+    this.router.navigate(['/courses', id])
   }
 }

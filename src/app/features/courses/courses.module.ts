@@ -12,7 +12,7 @@ const components = [CoursesComponent, CoursesListComponent];
   imports: [
     CommonModule,
     SharedModule,
-    CoursesRoutingModule
+    CoursesRoutingModule,
   ],
   exports: [components],
 })
