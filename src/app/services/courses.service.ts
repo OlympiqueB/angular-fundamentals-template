@@ -1,42 +1,64 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { CourseModel } from "@app/shared/models/course.model";
+import { forkJoin, map } from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class CoursesService {
-    getAll() {
-        // Add your code here
-    }
+  BASE_URL = "http://localhost:4000";
 
-    createCourse(course: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  constructor(private http: HttpClient) {}
 
-    editCourse(id: string, course: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  getAll() {
+    return this.http.get<CourseModel[]>(this.BASE_URL + "/courses/all");
+  }
 
-    getCourse(id: string) {
-        // Add your code here
-    }
+  createCourse(course: CourseModel) {
+    return this.http.post(this.BASE_URL + "/courses/add", course);
+  }
 
-    deleteCourse(id: string) {
-        // Add your code here
-    }
+  editCourse(id: string, course: CourseModel) {
+    return this.http.put(this.BASE_URL + "/courses/" + id, course);
+  }
 
-    filterCourses(value: string) {
-        // Add your code here
-    }
+  getCourse(id: string) {
+    return this.http.get(this.BASE_URL + "/courses/" + id);
+  }
 
-    getAllAuthors() {
-        // Add your code here
-    }
+  deleteCourse(id: string) {
+    return this.http.delete(this.BASE_URL + "/courses/" + id);
+  }
 
-    createAuthor(name: string) {
-        // Add your code here
-    }
+  filterCourses(value: string) {
+    const res: any[] = [];
 
-    getAuthorById(id: string) {
-        // Add your code here
-    }
+    const parameters = [
+      { key: "title", value: value },
+      { key: "description", value: value },
+      { key: "duration", value: value },
+      { key: "creationDate", value: value },
+    ];
+
+    const requests = parameters.map((param) => {
+      return this.http
+        .get(`${this.BASE_URL}/courses/filter?${param.key}=${param.value}`)
+        .pipe(map((res: any) => res.result));
+    });
+
+    return forkJoin(requests).pipe(map((res: any) => res.flat()));
+  }
+
+  getAllAuthors() {
+    return this.http.get(this.BASE_URL + "/authors/all");
+  }
+
+  createAuthor(name: string) {
+    return this.http.post(this.BASE_URL + "/authors/add", { name: name });
+  }
+
+  getAuthorById(id: string) {
+    return this.http.get(this.BASE_URL + "/authors/" + id);
+  }
 }

@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Component, Input } from "@angular/core";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
@@ -8,7 +9,7 @@ import { CourseModel } from "@app/shared/models/course.model";
   styleUrls: ["./courses-list.component.scss"],
 })
 export class CoursesListComponent {
-  @Input() courses?: CourseModel[];
+  @Input() courses?: Observable<any[]>;
   @Input() editable?: boolean = false;
 
   constructor(protected buttonLabelService: ButtonLabelService) {}
