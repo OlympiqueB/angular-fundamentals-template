@@ -13,7 +13,7 @@ import { AuthorModel } from "@app/shared/models/author.model";
 import { CourseModel } from "@app/shared/models/course.model";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { map, Observable, switchMap } from "rxjs";
+import { Observable, switchMap } from "rxjs";
 
 @Component({
   selector: "app-course-form",
@@ -28,7 +28,7 @@ export class CourseFormComponent implements OnInit {
     private route: ActivatedRoute,
     public buttonLabelService: ButtonLabelService
   ) {
-    library.addIconPacks(fas);
+    this.library.addIconPacks(fas);
   }
 
   courseForm!: FormGroup;

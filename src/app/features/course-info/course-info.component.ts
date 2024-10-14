@@ -29,8 +29,4 @@ export class CourseInfoComponent implements OnInit {
         .pipe(map((res: any) => res.result));
     });
   }
-
-  loadCourse(id: string) {
-    return this.coursesStoreService.getCourse(id);
-  }
 }

@@ -26,16 +26,6 @@ export class SearchComponent {
       this.coursesStoreService.filterCourses(this.searchForm.value.searchInput);
     }
   }
-
-  mergeResults(results: any[]): any[] {
-    const merged = this.searchResults.concat(...results);
-
-    const uniqueResults = Array.from(
-      new Map(merged.map((item: any) => [item.id, item])).values()
-    );
-
-    return uniqueResults;
-  }
-
+  
   // @Output() search?: string;
 }
