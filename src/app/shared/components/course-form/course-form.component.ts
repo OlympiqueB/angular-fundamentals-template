@@ -41,30 +41,8 @@ export class CourseFormComponent implements OnInit {
   course!: CourseModel | null;
 
   ngOnInit(): void {
-    this.courseForm = new FormGroup({
-      title: new FormControl("", [
-        Validators.minLength(2),
-        Validators.required,
-      ]),
-      description: new FormControl("", [
-        Validators.minLength(2),
-        Validators.required,
-      ]),
-      duration: new FormControl("", [Validators.required]),
-      author: new FormGroup({
-        newAuthor: new FormControl("", [
-          Validators.minLength(2),
-          Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
-        ]),
-      }),
-      authors: new FormArray([]),
-    });
-
-    this.courseAuthorArray = [];
-    this.coursesStoreService.getAllAuthors();
-    this.coursesStoreService.authors$.subscribe({
-      next: (a: any) => (this.fullAuthorArray = a),
-    });
+    this.buildForm();
+    this.initAuthors();
 
     this.route.params
       .pipe(
@@ -85,7 +63,28 @@ export class CourseFormComponent implements OnInit {
       });
   }
 
-  private populateForm(course: CourseModel): void {
+  buildForm() {
+    this.courseForm = new FormGroup({
+      title: new FormControl("", [
+        Validators.minLength(2),
+        Validators.required,
+      ]),
+      description: new FormControl("", [
+        Validators.minLength(2),
+        Validators.required,
+      ]),
+      duration: new FormControl("", [Validators.required]),
+      author: new FormGroup({
+        newAuthor: new FormControl("", [
+          Validators.minLength(2),
+          Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
+        ]),
+      }),
+      authors: new FormArray([]),
+    });
+  }
+
+  populateForm(course: CourseModel): void {
     this.courseForm.patchValue({
       title: course.title,
       description: course.description,
@@ -100,6 +99,14 @@ export class CourseFormComponent implements OnInit {
       if (author) {
         this.onAddAuthorClick(author);
       }
+    });
+  }
+
+  initAuthors() {
+    this.courseAuthorArray = [];
+    this.coursesStoreService.getAllAuthors();
+    this.coursesStoreService.authors$.subscribe({
+      next: (a: any) => (this.fullAuthorArray = a),
     });
   }
 
