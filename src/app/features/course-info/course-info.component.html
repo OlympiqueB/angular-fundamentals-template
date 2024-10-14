@@ -23,7 +23,7 @@
       <div>
         <b>Authors: </b
         ><span class="course-info__info-authors">{{
-          course.authors | authorList | async
+          course.authors | authorList : (authors$ | async)!
         }}</span>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
+import { AuthorModel } from "@app/shared/models/author.model";
 
 @Component({
   selector: "app-course-info",
@@ -13,6 +14,7 @@ import { CourseModel } from "@app/shared/models/course.model";
 export class CourseInfoComponent implements OnInit {
   course$!: Observable<CourseModel>;
   courseId!: string;
+  authors$?: Observable<AuthorModel[]>;
 
   constructor(
     public buttonLabelService: ButtonLabelService,
@@ -27,6 +29,7 @@ export class CourseInfoComponent implements OnInit {
       this.course$ = this.coursesStoreService
         .getCourse(this.courseId)
         .pipe(map((res: any) => res.result));
+      this.authors$ = this.coursesStoreService.authors$;
     });
   }
 }
