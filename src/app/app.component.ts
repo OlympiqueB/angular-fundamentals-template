@@ -15,9 +15,9 @@ export class AppComponent {
 
   constructor(
     protected buttonLabelService: ButtonLabelService,
-    public router: Router,
-    public userStoreService: UserStoreService,
-    public authService: AuthService,
+    protected router: Router,
+    protected userStoreService: UserStoreService,
+    protected authService: AuthService,
     private sessionStorageService: SessionStorageService
   ) {
     if (this.sessionStorageService.getToken()) {
