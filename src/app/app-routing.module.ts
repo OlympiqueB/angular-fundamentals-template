@@ -4,6 +4,20 @@ import { NotAuthorizedGuard } from "./auth/guards/not-authorized.guard";
 import { AuthorizedGuard } from "./auth/guards/authorized.guard";
 import { AdminGuard } from "./user/guards/admin.guard";
 
+export const API_ROUTES = {
+  COURSES: "courses",
+  COURSES_ALL: "courses/all",
+  COURSES_ADD: "courses/add",
+  COURSES_FILTER: "courses/filter",
+  AUTHORS: "authors",
+  AUTHORS_ALL: "authors/all",
+  AUTHORS_ADD: "authors/add",
+  LOGIN: "login",
+  LOGOUT: "logout",
+  REGISTER: "register",
+  USERS_ME: "users/me",
+};
+
 export const routes: Routes = [
   {
     path: "login",

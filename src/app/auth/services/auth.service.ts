@@ -8,6 +8,7 @@ import {
   RegistrationUserModel,
 } from "../models/registation.model";
 import { environment } from 'src/environments/environment';
+import { API_ROUTES } from "@app/app-routing.module";
 
 @Injectable({
   providedIn: "root",
@@ -26,7 +27,7 @@ export class AuthService {
   }
 
   login(user: LoginUserModel): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(environment.BASE_URL + "/login", user).pipe(
+    return this.http.post<LoginResponse>(`${environment.BASE_URL}/${API_ROUTES.LOGIN}`, user).pipe(
       tap((response: LoginResponse) => {
         if (response.result) {
           this.sessionStorageService.setToken(response.result);
@@ -38,7 +39,7 @@ export class AuthService {
 
   logout() {
     return this.http
-      .delete(environment.BASE_URL + "/logout", {
+      .delete(`${environment.BASE_URL}/${API_ROUTES.LOGOUT}`, {
         headers: {
           Authorization: this.sessionStorageService.getToken()!,
           skipAuthInterceptor: "true",
@@ -53,7 +54,7 @@ export class AuthService {
   }
 
   register(user: RegistrationUserModel) {
-    return this.http.post<RegistrationResponse>(environment.BASE_URL + "/register", user);
+    return this.http.post<RegistrationResponse>(`${environment.BASE_URL}/${API_ROUTES.REGISTER}`, user);
   }
 
   get isAuthorised() {
