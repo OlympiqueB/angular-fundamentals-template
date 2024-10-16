@@ -37,8 +37,9 @@ export class AppComponent {
         next: () => {
           this.router.navigate([NAV_ROUTES.LOGIN]);
         },
-        error: (error) => {
-          console.error("Logout error: ", error);
+        error: (err) => {
+          this.sessionStorageService.deleteToken();
+          this.router.navigate([NAV_ROUTES.LOGIN]);
         },
       });
     } else {
