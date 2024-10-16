@@ -3,12 +3,16 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, of } from "rxjs";
 import { CoursesService } from "@app/services/courses.service";
 import * as CoursesActions from "./courses.actions";
+import { CourseModel } from "@app/shared/models/course.model";
+import { Router } from "@angular/router";
+import { NAV_ROUTES } from "@app/app-routing.module";
 
 @Injectable()
 export class CoursesEffects {
   constructor(
     private actions$: Actions,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private router: Router
   ) {}
 
   getAll$ = createEffect(() =>
@@ -31,14 +35,15 @@ export class CoursesEffects {
 
   getSpecificCourse$ = createEffect(() =>
     this.actions$.pipe(
-      ofType("[Courses] Request Single Course"),
+      ofType(CoursesActions.requestSingleCourse),
       exhaustMap((action: { id: string }) =>
         this.coursesService.getCourse(action.id).pipe(
-          map((res: any) => ({
-            type: "[Courses] Request Single Course Success",
-            payload: res.result,
-          })),
-          catchError(() => of({ type: "[Courses] Request Single Course Fail" }))
+          map((res: any) =>
+            CoursesActions.requestSingleCourseSuccess({ course: res.result })
+          ),
+          catchError((error) =>
+            of(CoursesActions.requestSingleCourseFail({ error }))
+          )
         )
       )
     )
@@ -46,15 +51,60 @@ export class CoursesEffects {
 
   deleteCourse$ = createEffect(() =>
     this.actions$.pipe(
-      ofType("[Courses] Request Delete Course"),
+      ofType(CoursesActions.requestDeleteCourse),
       exhaustMap((action: { id: string }) =>
         this.coursesService.deleteCourse(action.id).pipe(
-          map((res: any) => ({
-            type: "[Courses] Request Delete Course Success]",
-          })),
-          catchError(() => of({ type: "[Courses] Request Delete Course Fail" }))
+          map(() => CoursesActions.requestDeleteCourseSuccess()),
+          catchError((error) =>
+            of(CoursesActions.requestDeleteCourseFail({ error }))
+          )
         )
       )
     )
+  );
+
+  editCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CoursesActions.requestEditCourse),
+      exhaustMap((action: { id: string; course: CourseModel }) =>
+        this.coursesService.editCourse(action.id, action.course).pipe(
+          map((res: any) =>
+            CoursesActions.requestEditCourseSuccess({ course: res.result })
+          ),
+          catchError((error) =>
+            of(CoursesActions.requestEditCourseFail({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  createCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CoursesActions.requestCreateCourse),
+      exhaustMap((action: { course: CourseModel }) =>
+        this.coursesService.createCourse(action.course).pipe(
+          map((res: any) =>
+            CoursesActions.requestCreateCourseSuccess({ course: res.result })
+          ),
+          catchError((error) =>
+            of(CoursesActions.requestCreateCourseFail({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  redirectToTheCoursesPage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          CoursesActions.requestCreateCourseSuccess,
+          CoursesActions.requestEditCourseSuccess,
+          CoursesActions.requestSingleCourseFail
+        ),
+        exhaustMap(() => this.router.navigate([NAV_ROUTES.COURSES]))
+      ),
+    { dispatch: false }
   );
 }
