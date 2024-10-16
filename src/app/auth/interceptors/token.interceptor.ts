@@ -4,6 +4,7 @@ import { AuthService } from "../services/auth.service";
 import { SessionStorageService } from "../services/session-storage.service";
 import { Router } from "@angular/router";
 import { catchError, Observable, throwError } from "rxjs";
+import { NAV_ROUTES } from "@app/app-routing.module";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -32,7 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && !req.headers.has('skipAuthInterceptor')) {
           this.authService.logout().subscribe(() => {
-            this.router.navigate(["/login"]);
+            this.router.navigate([NAV_ROUTES.LOGIN]);
           });
         }
         return throwError(error);

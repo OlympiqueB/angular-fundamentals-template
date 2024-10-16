@@ -1,7 +1,6 @@
 import { environment } from "./../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { API_ROUTES } from "@app/app-routing.module";
 import { CourseModel } from "@app/shared/models/course.model";
 import { forkJoin, map } from "rxjs";
 
@@ -13,31 +12,33 @@ export class CoursesService {
 
   getAll() {
     return this.http.get<CourseModel[]>(
-      `${environment.BASE_URL}/${API_ROUTES.COURSES_ALL}`
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_ALL}`
     );
   }
 
   createCourse(course: CourseModel) {
     return this.http.post(
-      `${environment.BASE_URL}/${API_ROUTES.COURSES_ADD}`,
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_ADD}`,
       course
     );
   }
 
   editCourse(id: string, course: CourseModel) {
     return this.http.put(
-      `${environment.BASE_URL}/${API_ROUTES.COURSES}/${id}`,
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES}/${id}`,
       course
     );
   }
 
   getCourse(id: string) {
-    return this.http.get(`${environment.BASE_URL}/${API_ROUTES.COURSES}/${id}`);
+    return this.http.get(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES}/${id}`
+    );
   }
 
   deleteCourse(id: string) {
     return this.http.delete(
-      `${environment.BASE_URL}/${API_ROUTES.COURSES}/${id}`
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES}/${id}`
     );
   }
 
@@ -54,7 +55,7 @@ export class CoursesService {
     const requests = parameters.map((param) => {
       return this.http
         .get(
-          `${environment.BASE_URL}/${API_ROUTES.COURSES_FILTER}?${param.key}=${param.value}`
+          `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_FILTER}?${param.key}=${param.value}`
         )
         .pipe(map((res: any) => res.result));
     });
@@ -63,16 +64,23 @@ export class CoursesService {
   }
 
   getAllAuthors() {
-    return this.http.get(`${environment.BASE_URL}/${API_ROUTES.AUTHORS_ALL}`);
+    return this.http.get(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.AUTHORS_ALL}`
+    );
   }
 
   createAuthor(name: string) {
-    return this.http.post(`${environment.BASE_URL}/${API_ROUTES.AUTHORS_ADD}`, {
-      name: name,
-    });
+    return this.http.post(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.AUTHORS_ADD}`,
+      {
+        name: name,
+      }
+    );
   }
 
   getAuthorById(id: string) {
-    return this.http.get(`${environment.BASE_URL}/${API_ROUTES.AUTHORS}/${id}`);
+    return this.http.get(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.AUTHORS}/${id}`
+    );
   }
 }

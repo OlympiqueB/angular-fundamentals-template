@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
 import { AuthorModel } from "@app/shared/models/author.model";
+import { NAV_ROUTES } from "@app/app-routing.module";
 
 @Component({
   selector: "app-course-info",
@@ -18,7 +19,7 @@ export class CourseInfoComponent implements OnInit {
 
   constructor(
     public buttonLabelService: ButtonLabelService,
-    public router: Router,
+    private router: Router,
     private coursesStoreService: CoursesStoreService,
     private route: ActivatedRoute
   ) {}
@@ -31,5 +32,9 @@ export class CourseInfoComponent implements OnInit {
         .pipe(map((res: any) => res.result));
       this.authors$ = this.coursesStoreService.authors$;
     });
+  }
+
+  onBackClick(): void {
+    this.router.navigate([NAV_ROUTES.COURSES])
   }
 }

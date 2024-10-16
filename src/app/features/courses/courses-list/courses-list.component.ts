@@ -1,6 +1,7 @@
 import { CoursesStoreService } from "./../../../services/courses-store.service";
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
+import { NAV_ROUTES } from "@app/app-routing.module";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
 import { UserStoreService } from "@app/user/services/user-store.service";
@@ -33,10 +34,10 @@ export class CoursesListComponent {
   }
 
   onEditClick(id: string) {
-    this.router.navigate(["/courses/edit", id]);
+    this.router.navigate([NAV_ROUTES.COURSES_EDIT, id]);
   }
 
   onShowClick(id: string) {
-    this.router.navigate(['/courses', id])
+    this.router.navigate([NAV_ROUTES.COURSES, id])
   }
 }

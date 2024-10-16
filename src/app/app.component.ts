@@ -4,6 +4,7 @@ import { UserStoreService } from "./user/services/user-store.service";
 import { AuthService } from "./auth/services/auth.service";
 import { Router } from "@angular/router";
 import { SessionStorageService } from "./auth/services/session-storage.service";
+import { NAV_ROUTES } from "./app-routing.module";
 
 @Component({
   selector: "app-root",
@@ -34,14 +35,14 @@ export class AppComponent {
     if (this.authService.isAuthorised) {
       this.authService.logout().subscribe({
         next: () => {
-          this.router.navigate(["/login"]);
+          this.router.navigate([NAV_ROUTES.LOGIN]);
         },
         error: (error) => {
           console.error("Logout error: ", error);
         },
       });
     } else {
-      this.router.navigate(["/login"]);
+      this.router.navigate([NAV_ROUTES.LOGIN]);
     }
   }
 }

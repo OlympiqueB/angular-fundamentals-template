@@ -7,6 +7,7 @@ import { AuthService } from "@app/auth/services/auth.service";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
+import { NAV_ROUTES } from "@app/app-routing.module";
 
 @Component({
   selector: "app-login-form",
@@ -37,7 +38,7 @@ export class LoginFormComponent {
       this.authService.login(loginUser).subscribe(
         () => {
           this.userStoreService.getUser();
-          this.router.navigate(["/courses"]);
+          this.router.navigate([NAV_ROUTES.COURSES]);
         },
         (error) => {
           console.error("Login failed", error);
@@ -55,6 +56,6 @@ export class LoginFormComponent {
   }
 
   onRegistrateClick() {
-    this.router.navigate(["/registration"]);
+    this.router.navigate([NAV_ROUTES.REGISTRATION]);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { NAV_ROUTES } from "@app/app-routing.module";
 import { RegistrationUserModel } from "@app/auth/models/registation.model";
 import { AuthService } from "@app/auth/services/auth.service";
 
@@ -33,7 +34,7 @@ export class RegistrationFormComponent implements OnInit {
       };
 
       this.authService.register(newUser).subscribe({
-        next: () => this.router.navigate(["/login"]),
+        next: () => this.router.navigate([NAV_ROUTES.LOGIN]),
         error: (error) => console.error("Registration error ", error),
       });
     }

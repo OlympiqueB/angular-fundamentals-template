@@ -4,29 +4,24 @@ import { NotAuthorizedGuard } from "./auth/guards/not-authorized.guard";
 import { AuthorizedGuard } from "./auth/guards/authorized.guard";
 import { AdminGuard } from "./user/guards/admin.guard";
 
-export const API_ROUTES = {
-  COURSES: "courses",
-  COURSES_ALL: "courses/all",
-  COURSES_ADD: "courses/add",
-  COURSES_FILTER: "courses/filter",
-  AUTHORS: "authors",
-  AUTHORS_ALL: "authors/all",
-  AUTHORS_ADD: "authors/add",
+export const NAV_ROUTES = {
   LOGIN: "login",
-  LOGOUT: "logout",
-  REGISTER: "register",
-  USERS_ME: "users/me",
+  REGISTRATION: "registration",
+  COURSES: "courses",
+  COURSES_ADD: "courses/add",
+  COURSES_INFO: "courses/:id",
+  COURSES_EDIT: "courses/edit/:id",
 };
 
 export const routes: Routes = [
   {
-    path: "login",
+    path: NAV_ROUTES.LOGIN,
     loadChildren: () =>
       import("./features/login/login.module").then((m) => m.LoginModule),
     canActivate: [NotAuthorizedGuard],
   },
   {
-    path: "registration",
+    path: NAV_ROUTES.REGISTRATION,
     loadChildren: () =>
       import("./features/registration/registration.module").then(
         (m) => m.RegistrationModule
@@ -34,13 +29,13 @@ export const routes: Routes = [
     canActivate: [NotAuthorizedGuard],
   },
   {
-    path: "courses",
+    path: NAV_ROUTES.COURSES,
     loadChildren: () =>
       import("./features/courses/courses.module").then((m) => m.CoursesModule),
     canLoad: [AuthorizedGuard],
   },
   {
-    path: "courses/add",
+    path: NAV_ROUTES.COURSES_ADD,
     loadChildren: () =>
       import("./features/course-form/course-form.module").then(
         (m) => m.CourseFormModule
@@ -49,7 +44,7 @@ export const routes: Routes = [
     canLoad: [AuthorizedGuard],
   },
   {
-    path: "courses/:id",
+    path: NAV_ROUTES.COURSES_INFO,
     loadChildren: () =>
       import("./features/course-info/course-info.module").then(
         (m) => m.CourseInfoModule
@@ -57,7 +52,7 @@ export const routes: Routes = [
     canLoad: [AuthorizedGuard],
   },
   {
-    path: "courses/edit/:id",
+    path: NAV_ROUTES.COURSES_EDIT,
     loadChildren: () =>
       import("./features/course-form/course-form.module").then(
         (m) => m.CourseFormModule
@@ -67,7 +62,7 @@ export const routes: Routes = [
   },
   {
     path: "**",
-    redirectTo: "courses",
+    redirectTo: NAV_ROUTES.COURSES,
     pathMatch: "full",
   },
 ];

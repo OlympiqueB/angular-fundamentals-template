@@ -4,6 +4,7 @@ import { CoursesStoreService } from "@app/services/courses-store.service";
 import { CourseModel } from "@app/shared/models/course.model";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
+import { NAV_ROUTES } from "@app/app-routing.module";
 
 @Component({
   selector: "app-courses",
@@ -25,6 +26,6 @@ export class CoursesComponent implements OnInit {
   }
 
   onNewCourseClick(): void {
-    this.router.navigate(["courses/add"]);
+    this.router.navigate([NAV_ROUTES.COURSES_ADD]);
   }
 }
