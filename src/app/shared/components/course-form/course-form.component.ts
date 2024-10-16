@@ -6,7 +6,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NAV_ROUTES } from "@app/app-routing.module";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CoursesStoreService } from "@app/services/courses-store.service";
 import { AuthorModel } from "@app/shared/models/author.model";
@@ -26,6 +27,7 @@ export class CourseFormComponent implements OnInit {
     private library: FaIconLibrary,
     private coursesStoreService: CoursesStoreService,
     private route: ActivatedRoute,
+    private router: Router,
     public buttonLabelService: ButtonLabelService
   ) {
     this.library.addIconPacks(fas);
@@ -171,6 +173,10 @@ export class CourseFormComponent implements OnInit {
     this.authors.removeAt(index);
 
     this.fullAuthorArray.push(author);
+  }
+
+  onCancelClick(): void {
+    this.router.navigate([NAV_ROUTES.COURSES]);
   }
 
   get title() {
