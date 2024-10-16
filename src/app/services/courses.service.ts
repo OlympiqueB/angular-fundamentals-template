@@ -43,24 +43,9 @@ export class CoursesService {
   }
 
   filterCourses(value: string) {
-    const res: any[] = [];
-
-    const parameters = [
-      { key: "title", value: value },
-      { key: "description", value: value },
-      { key: "duration", value: value },
-      { key: "creationDate", value: value },
-    ];
-
-    const requests = parameters.map((param) => {
-      return this.http
-        .get(
-          `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_FILTER}?${param.key}=${param.value}`
-        )
-        .pipe(map((res: any) => res.result));
-    });
-
-    return forkJoin(requests).pipe(map((res: any) => res.flat()));
+    return this.http.get(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_FILTER}?title=${value}`
+    );
   }
 
   getAllAuthors() {

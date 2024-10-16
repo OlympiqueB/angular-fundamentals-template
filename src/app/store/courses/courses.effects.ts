@@ -31,7 +31,23 @@ export class CoursesEffects {
     )
   );
 
-  // filteredCourse$
+  filteredCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CoursesActions.requestFilteredCourses),
+      exhaustMap((action: { title: string }) =>
+        this.coursesService.filterCourses(action.title).pipe(
+          map((res: any) =>
+            CoursesActions.requestFilteredCoursesSuccess({
+              courses: res.result,
+            })
+          ),
+          catchError((error) =>
+            of(CoursesActions.requestFilteredCoursesFail({ error }))
+          )
+        )
+      )
+    )
+  );
 
   getSpecificCourse$ = createEffect(() =>
     this.actions$.pipe(

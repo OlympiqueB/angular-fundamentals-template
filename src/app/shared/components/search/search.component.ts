@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CoursesStoreService } from "@app/services/courses-store.service";
+import { CoursesStateFacade } from "@app/store/courses/courses.facade";
 
 @Component({
   selector: "app-search",
@@ -16,16 +17,14 @@ export class SearchComponent {
 
   constructor(
     public buttonLabelService: ButtonLabelService,
-    private coursesStoreService: CoursesStoreService,
+    private coursesFacade: CoursesStateFacade
   ) {}
 
   filterCourses() {
     if (this.searchForm.value.searchInput.trim() === "") {
-      this.coursesStoreService.getAll();
+      this.coursesFacade.getAllCourses();
     } else {
-      this.coursesStoreService.filterCourses(this.searchForm.value.searchInput);
+      this.coursesFacade.getFilteredCourses(this.searchForm.value.searchInput);
     }
   }
-  
-  // @Output() search?: string;
 }
