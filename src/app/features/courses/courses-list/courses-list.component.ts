@@ -1,9 +1,9 @@
-import { CoursesStoreService } from "./../../../services/courses-store.service";
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { NAV_ROUTES } from "@app/app-routing.module";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
+import { CoursesStateFacade } from "@app/store/courses/courses.facade";
 import { UserStoreService } from "@app/user/services/user-store.service";
 import { Observable } from "rxjs";
 
@@ -18,9 +18,9 @@ export class CoursesListComponent {
 
   constructor(
     protected buttonLabelService: ButtonLabelService,
-    protected router: Router,
+    private router: Router,
     protected userStoreService: UserStoreService,
-    private coursesStoreService: CoursesStoreService
+    private coursesFacade: CoursesStateFacade,
   ) {}
 
   deleteCourse(id: string) {
@@ -29,7 +29,7 @@ export class CoursesListComponent {
     );
 
     if (isConfirmed) {
-      this.coursesStoreService.deleteCourse(id);
+      this.coursesFacade.deleteCourse(id);
     }
   }
 

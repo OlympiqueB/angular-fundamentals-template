@@ -12,9 +12,10 @@ import { ButtonLabelService } from "@app/services/button-label.service";
 import { CoursesStoreService } from "@app/services/courses-store.service";
 import { AuthorModel } from "@app/shared/models/author.model";
 import { CourseModel } from "@app/shared/models/course.model";
+import { CoursesStateFacade } from "@app/store/courses/courses.facade";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { Observable, switchMap } from "rxjs";
+import { of, switchMap } from "rxjs";
 
 @Component({
   selector: "app-course-form",
@@ -28,7 +29,8 @@ export class CourseFormComponent implements OnInit {
     private coursesStoreService: CoursesStoreService,
     private route: ActivatedRoute,
     private router: Router,
-    public buttonLabelService: ButtonLabelService
+    public buttonLabelService: ButtonLabelService,
+    private coursesFacade: CoursesStateFacade
   ) {
     this.library.addIconPacks(fas);
   }
@@ -40,7 +42,7 @@ export class CourseFormComponent implements OnInit {
   newAuthorSubmitted: boolean = false;
 
   courseId: string = "";
-  course!: CourseModel | null;
+  course$ = this.coursesFacade.course$;
 
   ngOnInit(): void {
     this.buildForm();
@@ -49,18 +51,18 @@ export class CourseFormComponent implements OnInit {
     this.route.params
       .pipe(
         switchMap((params) => {
-          this.courseId = params["id"];
-          if (this.courseId) {
-            return this.coursesStoreService.getCourse(
-              this.courseId
-            ) as Observable<any>;
+          const courseId = params["id"];
+          if (courseId) {
+            this.coursesFacade.getSingleCourse(courseId);
+            return this.course$;
           }
-          return [];
+          return of(null);
         })
       )
-      .subscribe((res: any) => {
-        if (res.successful) {
-          this.populateForm(res.result);
+      .subscribe((course: CourseModel | null) => {
+        if (course) {
+          this.courseId = course.id;
+          this.populateForm(course);
         }
       });
   }
@@ -125,19 +127,16 @@ export class CourseFormComponent implements OnInit {
       };
 
       if (this.courseId) {
-        this.coursesStoreService.editCourse(this.courseId, {
-          ...newCourse,
-          id: this.courseId,
-        });
+        this.coursesFacade.editCourse(
+          {
+            ...newCourse,
+            id: this.courseId,
+          },
+          this.courseId
+        );
       } else {
-        this.coursesStoreService.createCourse(newCourse);
+        this.coursesFacade.createCourse(newCourse);
       }
-
-      this.courseForm.reset();
-      this.submitted = false;
-      this.courseAuthorArray = [];
-      this.authors.clear();
-      this.coursesStoreService.getAllAuthors();
     } else {
       this.courseForm.markAllAsTouched();
       this.author.reset();

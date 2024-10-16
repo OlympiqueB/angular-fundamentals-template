@@ -1,8 +1,7 @@
+import { CoursesStateFacade } from '@app/store/courses/courses.facade';
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { Component, OnInit } from "@angular/core";
 import { CoursesStoreService } from "@app/services/courses-store.service";
-import { CourseModel } from "@app/shared/models/course.model";
-import { Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { NAV_ROUTES } from "@app/app-routing.module";
 
@@ -14,15 +13,15 @@ import { NAV_ROUTES } from "@app/app-routing.module";
 export class CoursesComponent implements OnInit {
   constructor(
     private coursesStoreService: CoursesStoreService,
+    private coursesFacade :CoursesStateFacade,
     protected buttonLabelService: ButtonLabelService,
     private router: Router
   ) {}
-  courses$!: Observable<CourseModel[]>;
+  courses$ = this.coursesFacade.allCourses$;
 
   ngOnInit(): void {
-    this.coursesStoreService.getAll();
+    this.coursesFacade.getAllCourses();
     this.coursesStoreService.getAllAuthors();
-    this.courses$ = this.coursesStoreService.courses$;
   }
 
   onNewCourseClick(): void {
