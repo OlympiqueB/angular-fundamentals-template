@@ -43,6 +43,7 @@ export class CourseFormComponent implements OnInit {
 
   courseId: string = "";
   course$ = this.coursesFacade.course$;
+  isSingleCourseLoading$ = this.coursesFacade.isSingleCourseLoading$;
 
   ngOnInit(): void {
     this.buildForm();

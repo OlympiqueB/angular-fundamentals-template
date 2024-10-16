@@ -15,6 +15,7 @@ import { CoursesStateFacade } from "@app/store/courses/courses.facade";
 export class CourseInfoComponent implements OnInit {
   course$ = this.coursesFacade.course$;
   authors$?: Observable<AuthorModel[]>;
+  isSingleCourseLoading$ = this.coursesFacade.isSingleCourseLoading$;
 
   constructor(
     public buttonLabelService: ButtonLabelService,

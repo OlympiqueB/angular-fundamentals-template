@@ -18,6 +18,7 @@ export class CoursesComponent implements OnInit {
     private router: Router
   ) {}
   courses$ = this.coursesFacade.allCourses$;
+  isAllCoursesLoading$ = this.coursesFacade.isAllCoursesLoading$;
 
   ngOnInit(): void {
     this.coursesFacade.getAllCourses();

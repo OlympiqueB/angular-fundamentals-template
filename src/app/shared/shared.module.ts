@@ -19,6 +19,7 @@ import { EmailValidatorDirective } from '@shared/directives/email.directive';
 import { AuthorListPipe } from './pipes/author-list.pipe';
 import { NumberOnlyDirective } from './directives/number-only.directive';
 import { TogglePasswordDirective } from './directives/toggle-password.directive';
+import { LoaderComponent } from './components/loader/loader.component';
 
 const components = [
   HeaderComponent,
@@ -35,7 +36,8 @@ const components = [
   AuthorListPipe,
   EmailValidatorDirective,
   NumberOnlyDirective,
-  TogglePasswordDirective
+  TogglePasswordDirective,
+  LoaderComponent
 ];
 
 @NgModule({
