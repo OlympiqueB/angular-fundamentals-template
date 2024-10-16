@@ -9,8 +9,7 @@ export const NAV_ROUTES = {
   REGISTRATION: "registration",
   COURSES: "courses",
   COURSES_ADD: "courses/add",
-  COURSES_INFO: "courses/:id",
-  COURSES_EDIT: "courses/edit/:id",
+  COURSES_EDIT: "courses/edit",
 };
 
 export const routes: Routes = [
@@ -44,7 +43,7 @@ export const routes: Routes = [
     canLoad: [AuthorizedGuard],
   },
   {
-    path: NAV_ROUTES.COURSES_INFO,
+    path: `${NAV_ROUTES.COURSES}/:id`,
     loadChildren: () =>
       import("./features/course-info/course-info.module").then(
         (m) => m.CourseInfoModule
@@ -52,7 +51,7 @@ export const routes: Routes = [
     canLoad: [AuthorizedGuard],
   },
   {
-    path: NAV_ROUTES.COURSES_EDIT,
+    path: `${NAV_ROUTES.COURSES_EDIT}/:id`,
     loadChildren: () =>
       import("./features/course-form/course-form.module").then(
         (m) => m.CourseFormModule
