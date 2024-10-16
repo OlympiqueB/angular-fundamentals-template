@@ -3,6 +3,8 @@ import { BehaviorSubject, finalize, Observable } from "rxjs";
 import { CoursesService } from "./courses.service";
 import { CourseModel } from "@app/shared/models/course.model";
 import { AuthorModel } from "@app/shared/models/author.model";
+import { NAV_ROUTES } from "@app/app-routing.module";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +19,7 @@ export class CoursesStoreService {
   public courses$: Observable<CourseModel[]> = this.courses$$.asObservable();
   public authors$: Observable<AuthorModel[]> = this.authors$$.asObservable();
 
-  constructor(private coursesService: CoursesService) {}
+  constructor(private coursesService: CoursesService, private router: Router) {}
 
   getAll(): void {
     this.isLoading$$.next(true);
@@ -34,8 +36,12 @@ export class CoursesStoreService {
     this.coursesService
       .createCourse(course)
       .pipe(finalize(() => this.isLoading$$.next(false)))
-      .subscribe(() => {
-        this.getAll();
+      .subscribe({
+        next: () => {
+          this.getAll();
+          this.router.navigate([NAV_ROUTES.COURSES]);
+        },
+        error: (error) => console.error("Create Course error ", error),
       });
   }
 
@@ -48,8 +54,12 @@ export class CoursesStoreService {
     this.coursesService
       .editCourse(id, course)
       .pipe(finalize(() => this.isLoading$$.next(false)))
-      .subscribe(() => {
-        this.getAll();
+      .subscribe({
+        next: () => {
+          this.getAll();
+          this.router.navigate([NAV_ROUTES.COURSES]);
+        },
+        error: (error) => console.error("Edit Course error ", error),
       });
   }
 
