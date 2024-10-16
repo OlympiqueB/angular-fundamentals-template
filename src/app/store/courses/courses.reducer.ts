@@ -2,7 +2,6 @@ import { CourseModel } from "@app/shared/models/course.model";
 import { Action, createReducer, on } from "@ngrx/store";
 import * as CoursesActions from "./courses.actions";
 
-// Add your code here
 export const coursesFeatureKey = "courses";
 
 export interface CoursesState {

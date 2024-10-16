@@ -64,8 +64,4 @@ export class AuthService {
     }
     return isAuthorised;
   }
-
-  getLoginUrl() {
-    // Add your code here
-  }
 }

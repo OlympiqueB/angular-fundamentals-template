@@ -20,5 +20,4 @@ export class CourseCardComponent implements OnInit {
   ngOnInit(): void {
     this.authors$ = this.coursesStoreService.authors$;
   }
-  // @Output() clickOnShow;
 }
