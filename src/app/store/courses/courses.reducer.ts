@@ -75,54 +75,51 @@ export const coursesReducer = createReducer(
     errorMessage: error,
   })),
 
-  // CHECK THE ONES AFTER THIS COMMENT
-
   on(CoursesActions.requestDeleteCourse, (state, { id }) => ({
     ...state,
-    isAllCoursesLoading: true, // Loading state for delete operation
-    errorMessage: null, // Clear previous errors
+    isAllCoursesLoading: true,
+    errorMessage: null,
   })),
   on(CoursesActions.requestDeleteCourseSuccess, (state) => ({
     ...state,
-    isAllCoursesLoading: false, // Turn off loading after successful deletion
+    isAllCoursesLoading: false,
   })),
   on(CoursesActions.requestDeleteCourseFail, (state, { error }) => ({
     ...state,
-    isAllCoursesLoading: false, // Turn off loading on failure
-    errorMessage: error, // Capture the error
+    isAllCoursesLoading: false,
+    errorMessage: error,
   })),
-
 
   on(CoursesActions.requestEditCourse, (state) => ({
     ...state,
-    isSingleCourseLoading: true, // Loading state for edit operation
-    errorMessage: null, // Clear previous errors
+    isSingleCourseLoading: true,
+    errorMessage: null,
   })),
   on(CoursesActions.requestEditCourseSuccess, (state, { course }) => ({
     ...state,
-    allCourses: state.allCourses.map((c) => (c.id === course.id ? course : c)), // Update the edited course
-    isSingleCourseLoading: false, // Turn off loading
+    allCourses: state.allCourses.map((c) => (c.id === course.id ? course : c)),
+    isSingleCourseLoading: false,
   })),
   on(CoursesActions.requestEditCourseFail, (state, { error }) => ({
     ...state,
-    isSingleCourseLoading: false, // Turn off loading on failure
-    errorMessage: error, // Capture the error
+    isSingleCourseLoading: false,
+    errorMessage: error,
   })),
 
   on(CoursesActions.requestCreateCourse, (state) => ({
     ...state,
-    isSingleCourseLoading: true, // Loading state for create operation
-    errorMessage: null, // Clear previous errors
+    isSingleCourseLoading: true,
+    errorMessage: null,
   })),
   on(CoursesActions.requestCreateCourseSuccess, (state, { course }) => ({
     ...state,
-    allCourses: [...state.allCourses, course], // Add the new course to the list
-    isSingleCourseLoading: false, // Turn off loading
+    allCourses: [...state.allCourses, course],
+    isSingleCourseLoading: false,
   })),
   on(CoursesActions.requestCreateCourseFail, (state, { error }) => ({
     ...state,
-    isSingleCourseLoading: false, // Turn off loading on failure
-    errorMessage: error, // Capture the error
+    isSingleCourseLoading: false,
+    errorMessage: error,
   }))
 );
 
