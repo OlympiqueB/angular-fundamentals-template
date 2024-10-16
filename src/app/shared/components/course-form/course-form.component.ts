@@ -6,13 +6,15 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NAV_ROUTES } from "@app/app-routing.module";
 import { ButtonLabelService } from "@app/services/button-label.service";
-import { mockedAuthorsList } from "@app/shared/mocks/mocks";
+import { CoursesStoreService } from "@app/services/courses-store.service";
 import { AuthorModel } from "@app/shared/models/author.model";
 import { CourseModel } from "@app/shared/models/course.model";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { v4 as uuidv4 } from "uuid";
+import { Observable, switchMap } from "rxjs";
 
 @Component({
   selector: "app-course-form",
@@ -23,18 +25,47 @@ export class CourseFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private library: FaIconLibrary,
+    private coursesStoreService: CoursesStoreService,
+    private route: ActivatedRoute,
+    private router: Router,
     public buttonLabelService: ButtonLabelService
   ) {
-    library.addIconPacks(fas);
+    this.library.addIconPacks(fas);
   }
 
   courseForm!: FormGroup;
   fullAuthorArray!: AuthorModel[];
   courseAuthorArray!: AuthorModel[];
-  submitted = false;
-  newAuthorSubmitted = false;
+  submitted: boolean = false;
+  newAuthorSubmitted: boolean = false;
+
+  courseId: string = "";
+  course!: CourseModel | null;
 
   ngOnInit(): void {
+    this.buildForm();
+    this.initAuthors();
+
+    this.route.params
+      .pipe(
+        switchMap((params) => {
+          this.courseId = params["id"];
+          if (this.courseId) {
+            return this.coursesStoreService.getCourse(
+              this.courseId
+            ) as Observable<any>;
+          }
+          return [];
+        })
+      )
+      .subscribe((res: any) => {
+        if (res.successful) {
+          this.populateForm(res.result);
+        }
+      });
+  }
+
+  buildForm() {
     this.courseForm = new FormGroup({
       title: new FormControl("", [
         Validators.minLength(2),
@@ -53,27 +84,60 @@ export class CourseFormComponent implements OnInit {
       }),
       authors: new FormArray([]),
     });
+  }
 
+  populateForm(course: CourseModel): void {
+    this.courseForm.patchValue({
+      title: course.title,
+      description: course.description,
+      duration: course.duration,
+    });
+
+    this.authors.clear();
     this.courseAuthorArray = [];
-    this.fullAuthorArray = mockedAuthorsList;
+
+    course.authors.forEach((authorId: string) => {
+      const author = this.fullAuthorArray.find((a) => a.id === authorId);
+      if (author) {
+        this.onAddAuthorClick(author);
+      }
+    });
+  }
+
+  initAuthors() {
+    this.courseAuthorArray = [];
+    this.coursesStoreService.getAllAuthors();
+    this.coursesStoreService.authors$.subscribe({
+      next: (a: any) => (this.fullAuthorArray = a),
+    });
   }
 
   onCourseSubmit() {
     this.submitted = true;
     if (this.courseForm.valid) {
       const newCourse: CourseModel = {
-        id: uuidv4(),
+        id: "",
         title: this.title?.value,
         description: this.description?.value,
         creationDate: new Date().toDateString(),
-        duration: this.duration?.value,
-        authors: this.authors.value,
+        duration: Number(this.duration?.value),
+        authors: this.authors.value.map((a: AuthorModel) => a.id),
       };
+
+      if (this.courseId) {
+        this.coursesStoreService.editCourse(this.courseId, {
+          ...newCourse,
+          id: this.courseId,
+        });
+      } else {
+        this.coursesStoreService.createCourse(newCourse);
+      }
 
       this.courseForm.reset();
       this.submitted = false;
       this.courseAuthorArray = [];
-      this.fullAuthorArray = mockedAuthorsList;
+      this.authors.clear();
+      this.coursesStoreService.getAllAuthors();
     } else {
       this.courseForm.markAllAsTouched();
       this.author.reset();
@@ -84,11 +148,8 @@ export class CourseFormComponent implements OnInit {
     this.newAuthorSubmitted = true;
 
     if (this.newAuthor?.valid && this.newAuthor.value) {
-      const newAuthor: AuthorModel = {
-        id: uuidv4(),
-        name: this.newAuthor.value,
-      };
-      this.fullAuthorArray.push(newAuthor);
+      this.coursesStoreService.createAuthor(this.newAuthor.value);
+      this.coursesStoreService.getAllAuthors();
 
       this.author.reset();
       this.newAuthorSubmitted = false;
@@ -112,6 +173,10 @@ export class CourseFormComponent implements OnInit {
     this.authors.removeAt(index);
 
     this.fullAuthorArray.push(author);
+  }
+
+  onCancelClick(): void {
+    this.router.navigate([NAV_ROUTES.COURSES]);
   }
 
   get title() {

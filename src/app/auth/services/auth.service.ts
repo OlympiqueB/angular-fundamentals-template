@@ -1,30 +1,71 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, tap } from "rxjs";
+import { SessionStorageService } from "./session-storage.service";
+import { LoginResponse, LoginUserModel } from "../models/login.model";
+import {
+  RegistrationResponse,
+  RegistrationUserModel,
+} from "../models/registation.model";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-    login(user: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  private isAuthorised$$!: BehaviorSubject<boolean>;
+  public isAuthorised$!: Observable<boolean>;
 
-    logout() {
-        // Add your code here
-    }
+  constructor(
+    private http: HttpClient,
+    private sessionStorageService: SessionStorageService
+  ) {
+    const isAuthorised = !!this.sessionStorageService.getToken();
+    this.isAuthorised$$ = new BehaviorSubject<boolean>(isAuthorised);
+    this.isAuthorised$ = this.isAuthorised$$.asObservable();
+  }
 
-    register(user: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  login(user: LoginUserModel): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.API_BASE_URL}/${environment.API_ROUTES.LOGIN}`, user).pipe(
+      tap((response: LoginResponse) => {
+        if (response.result) {
+          this.sessionStorageService.setToken(response.result);
+          this.isAuthorised$$.next(true);
+        }
+      })
+    );
+  }
 
-    get isAuthorised() {
-        // Add your code here. Get isAuthorized$$ value
-    }
+  logout() {
+    return this.http
+      .delete(`${environment.API_BASE_URL}/${environment.API_ROUTES.LOGOUT}`, {
+        headers: {
+          Authorization: this.sessionStorageService.getToken()!,
+          skipAuthInterceptor: "true",
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.sessionStorageService.deleteToken();
+          this.isAuthorised$$.next(false);
+        })
+      );
+  }
 
-    set isAuthorised(value: boolean) {
-        // Add your code here. Change isAuthorized$$ value
-    }
+  register(user: RegistrationUserModel) {
+    return this.http.post<RegistrationResponse>(`${environment.API_BASE_URL}/${environment.API_ROUTES.REGISTER}`, user);
+  }
 
-    getLoginUrl() {
-        // Add your code here
+  get isAuthorised() {
+    const token = this.sessionStorageService.getToken();
+    const isAuthorised = !!token;
+    if (this.isAuthorised$$.value !== isAuthorised) {
+      this.isAuthorised$$.next(isAuthorised);
     }
+    return isAuthorised;
+  }
+
+  getLoginUrl() {
+    // Add your code here
+  }
 }

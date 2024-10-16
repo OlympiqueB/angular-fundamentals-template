@@ -1,7 +1,21 @@
-<div *ngFor="let course of courses">
+<div *ngFor="let course of courses$ | async">
   <app-course-card [courseObject]="course" [isEditable]="editable">
-    <app-button courseShow [buttonText]="buttonLabelService.getLabel('SHOW_COURSE')"></app-button>
-    <app-button courseEdit [iconName]="buttonLabelService.getLabel('TRASH_CAN')"></app-button>
-    <app-button courseDelete [iconName]="buttonLabelService.getLabel('PENCIL')"></app-button>
+    <app-button
+      courseShow
+      [buttonText]="buttonLabelService.getLabel('SHOW_COURSE')"
+      (clicked)="onShowClick(course.id)"
+    ></app-button>
+    <app-button
+      *ngIf="userStoreService.isAdmin"
+      courseEdit
+      [iconName]="buttonLabelService.getLabel('TRASH_CAN')"
+      (clicked)="deleteCourse(course.id)"
+    ></app-button>
+    <app-button
+      *ngIf="userStoreService.isAdmin"
+      courseDelete
+      [iconName]="buttonLabelService.getLabel('PENCIL')"
+      (clicked)="onEditClick(course.id)"
+    ></app-button>
   </app-course-card>
 </div>

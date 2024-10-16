@@ -1,33 +1,16 @@
 <app-header>
   <div class="header-right-content">
-    <app-button [buttonText]="buttonLabelService.getLabel('LOGIN')"></app-button>
+    <app-button
+      [buttonText]="
+        buttonLabelService.getLabel(
+          isAuth ? 'LOGOUT' : 'LOGIN'
+        )
+      "
+      (clicked)="onLogoutClick()"
+    ></app-button>
   </div>
 </app-header>
 
 <div class="app-root">
-  <!-- Search component -->
-  <!--<app-search></app-search>-->
-
-  <!-- <app-info
-    title="Your List Is Empty"
-    text="Please use 'Add New Course' button to add your first course"
-  >
-    <app-button [buttonText]="buttonLabelService.getLabel('NEW_COURSE')"></app-button>
-  </app-info> -->
-
-  <app-courses></app-courses>
-
-  <!-- <app-course-info [course]="mockedCoursesList[0]"></app-course-info> -->
-
-  <!-- Login Form component -->
-  <!-- <app-login-form></app-login-form> -->
-
-  <!-- Login Form component -->
-  <!-- <app-registration-form></app-registration-form> -->
-
-  <!-- Login Form component -->
-  <!-- <app-course-form></app-course-form> -->
-
-  <!-- Modal component -->
-  <!-- <app-modal [message]="'Message'" [title]="'Title'" [okButtonText]="'Ok'" [cancelButtonText]="'Cancel'"></app-modal> -->
+  <router-outlet></router-outlet>
 </div>

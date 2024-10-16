@@ -1,42 +1,86 @@
-import { Injectable } from '@angular/core';
+import { environment } from "./../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { CourseModel } from "@app/shared/models/course.model";
+import { forkJoin, map } from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class CoursesService {
-    getAll() {
-        // Add your code here
-    }
+  constructor(private http: HttpClient) {}
 
-    createCourse(course: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  getAll() {
+    return this.http.get<CourseModel[]>(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_ALL}`
+    );
+  }
 
-    editCourse(id: string, course: any) { // replace 'any' with the required interface
-        // Add your code here
-    }
+  createCourse(course: CourseModel) {
+    return this.http.post(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_ADD}`,
+      course
+    );
+  }
 
-    getCourse(id: string) {
-        // Add your code here
-    }
+  editCourse(id: string, course: CourseModel) {
+    return this.http.put(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES}/${id}`,
+      course
+    );
+  }
 
-    deleteCourse(id: string) {
-        // Add your code here
-    }
+  getCourse(id: string) {
+    return this.http.get(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES}/${id}`
+    );
+  }
 
-    filterCourses(value: string) {
-        // Add your code here
-    }
+  deleteCourse(id: string) {
+    return this.http.delete(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES}/${id}`
+    );
+  }
 
-    getAllAuthors() {
-        // Add your code here
-    }
+  filterCourses(value: string) {
+    const res: any[] = [];
 
-    createAuthor(name: string) {
-        // Add your code here
-    }
+    const parameters = [
+      { key: "title", value: value },
+      { key: "description", value: value },
+      { key: "duration", value: value },
+      { key: "creationDate", value: value },
+    ];
 
-    getAuthorById(id: string) {
-        // Add your code here
-    }
+    const requests = parameters.map((param) => {
+      return this.http
+        .get(
+          `${environment.API_BASE_URL}/${environment.API_ROUTES.COURSES_FILTER}?${param.key}=${param.value}`
+        )
+        .pipe(map((res: any) => res.result));
+    });
+
+    return forkJoin(requests).pipe(map((res: any) => res.flat()));
+  }
+
+  getAllAuthors() {
+    return this.http.get(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.AUTHORS_ALL}`
+    );
+  }
+
+  createAuthor(name: string) {
+    return this.http.post(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.AUTHORS_ADD}`,
+      {
+        name: name,
+      }
+    );
+  }
+
+  getAuthorById(id: string) {
+    return this.http.get(
+      `${environment.API_BASE_URL}/${environment.API_ROUTES.AUTHORS}/${id}`
+    );
+  }
 }

@@ -65,7 +65,10 @@
           <app-button buttonText="Login" (clicked)="onSubmit()"></app-button>
         </div>
         <div class="form__text">
-          If you don't have an account you may <strong>Registration</strong>
+          If you don't have an account you may
+          <span (click)="onRegistrateClick()"
+            ><strong>Registration</strong></span
+          >
         </div>
       </div>
     </div>
