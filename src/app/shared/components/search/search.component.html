@@ -1,4 +1,11 @@
 <form #searchForm="ngForm" class="app-search">
-  <input type="text" [placeholder]="placeholder" />
-  <app-button [buttonText]="buttonLabelService.getLabel('SEARCH')"></app-button>
+  <input
+    type="text"
+    id="searchInput"
+    name="searchInput"
+    ngModel
+    #searchInputControl="ngModel"
+    [placeholder]="placeholder"
+  />
+  <app-button [buttonText]="buttonLabelService.getLabel('SEARCH')" (clicked)="filterCourses()"></app-button>
 </form>

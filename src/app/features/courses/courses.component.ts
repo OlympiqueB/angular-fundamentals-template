@@ -1,8 +1,10 @@
+import { ButtonLabelService } from "@app/services/button-label.service";
 import { Component, OnInit } from "@angular/core";
-import { requestAllCourses } from "@app/store/courses/courses.actions";
-import { getAllCourses } from "@app/store/courses/courses.selectors";
-import { Store } from "@ngrx/store";
+import { CoursesStoreService } from "@app/services/courses-store.service";
+import { CourseModel } from "@app/shared/models/course.model";
 import { Observable } from "rxjs";
+import { Router } from "@angular/router";
+import { NAV_ROUTES } from "@app/app-routing.module";
 
 @Component({
   selector: "app-courses",
@@ -10,10 +12,20 @@ import { Observable } from "rxjs";
   styleUrls: ["./courses.component.scss"],
 })
 export class CoursesComponent implements OnInit {
-  constructor(private store: Store) {}
-  mockedCoursesList$!: Observable<any>;
+  constructor(
+    private coursesStoreService: CoursesStoreService,
+    protected buttonLabelService: ButtonLabelService,
+    private router: Router
+  ) {}
+  courses$!: Observable<CourseModel[]>;
+
   ngOnInit(): void {
-    this.store.dispatch(requestAllCourses());
-    this.mockedCoursesList$ = this.store.select(getAllCourses)
+    this.coursesStoreService.getAll();
+    this.coursesStoreService.getAllAuthors();
+    this.courses$ = this.coursesStoreService.courses$;
+  }
+
+  onNewCourseClick(): void {
+    this.router.navigate([NAV_ROUTES.COURSES_ADD]);
   }
 }

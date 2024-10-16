@@ -1,5 +1,15 @@
-<app-search [placeholder]="'Input text'"></app-search>
-<app-courses-list
-  [courses]="mockedCoursesList$"
-  [editable]="true"
-></app-courses-list>
+<div *ngIf="(courses$ | async)?.length; else info" class="courses">
+  <app-search [placeholder]="'Input text'"></app-search>
+  <app-courses-list [courses$]="courses$" [editable]="true"></app-courses-list>
+</div>
+<ng-template #info>
+  <app-info
+    [title]="'Your List Is Empty'"
+    [text]="'Please use Add New Course button to add your first course'"
+  >
+    <app-button
+      [buttonText]="buttonLabelService.getLabel('NEW_COURSE')"
+      (clicked)="onNewCourseClick()"
+    ></app-button>
+  </app-info>
+</ng-template>

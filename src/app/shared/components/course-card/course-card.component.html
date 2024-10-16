@@ -10,7 +10,7 @@
     <div class="course-card__info-text">
       <div>
         <b>Authors: </b>
-        {{ courseObject.authors | authorList }}
+        {{ courseObject.authors | authorList : (authors$ | async)! }}
       </div>
       <div>
         <b>Duration: </b
