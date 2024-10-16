@@ -53,4 +53,8 @@ export class LoginFormComponent {
   icon(iconName: string) {
     return this.library.getIconDefinition("fas", iconName as IconName);
   }
+
+  onRegistrateClick() {
+    this.router.navigate(["/registration"]);
+  }
 }
