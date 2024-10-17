@@ -31,7 +31,7 @@ export class CoursesEffects {
     )
   );
 
-  filteredCourse$ = createEffect(() =>
+  filteredCourses$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CoursesActions.requestFilteredCourses),
       exhaustMap((action: { title: string }) =>

@@ -28,7 +28,7 @@ export class CoursesStateFacade {
     select(isSingleCourseLoadingSelector)
   );
   isSearchingState$ = this.store.pipe(select(isSearchingStateSelector));
-  // courses$ ???
+  courses$ = this.store.pipe(select(getAllCourses)); // I have no idea what this is for
   allCourses$ = this.store.pipe(select(getAllCourses));
   course$ = this.store.pipe(select(getCourse));
   errorMessage$ = this.store.pipe(select(getErrorMessage));
