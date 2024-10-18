@@ -1,7 +1,15 @@
 <app-loader *ngIf="isAllCoursesLoading$ | async; else coursesComp"></app-loader>
 <ng-template #coursesComp>
   <div *ngIf="(courses$ | async)?.length; else info" class="courses">
-    <app-search [placeholder]="'Input text'"></app-search>
+    <div class="flex-alcen-topmar">
+      <div class="w50">
+        <app-search [placeholder]="'Input text'"></app-search>
+      </div>
+      <app-button
+        [buttonText]="buttonLabelService.getLabel('NEW_COURSE')"
+        (clicked)="onNewCourseClick()"
+      ></app-button>
+    </div>
     <app-courses-list
       [courses$]="courses$"
       [editable]="true"
