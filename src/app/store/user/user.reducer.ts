@@ -7,7 +7,7 @@ export interface UserState {
   isUserLoading: boolean;
   email: string;
   id: string;
-  name: string;
+  name: string | null;
   role: string;
   errorMessage: any;
 }

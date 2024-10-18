@@ -11,5 +11,6 @@ export enum AuthConstants {
   REQUEST_REGISTRATION_SUCCESS = "[Auth] Request Registration Success",
   REQUEST_REGISTRATION_FAIL = "[Auth] Request Registration Fail",
 
+  TOKEN_VALID = "[Auth] Token Valid",
   TOKEN_INVALID = "[Auth] Token Invalid",
 }

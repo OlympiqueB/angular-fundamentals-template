@@ -71,11 +71,14 @@ export const authReducer = createReducer(
     errorMessage: error,
   })),
 
+  on(AuthActions.tokenValid, (state) => ({
+    ...state,
+    isAuthorised: true,
+  })),
   on(AuthActions.tokenInvalid, (state) => ({
     ...state,
-    isAuthorised: false
+    isAuthorised: false,
   }))
-
 );
 
 export const reducer = (state: AuthState, action: Action): AuthState =>

@@ -39,4 +39,5 @@ export const requestRegistrationFail = createAction(
   props<{ error: any }>()
 );
 
+export const tokenValid = createAction(AuthConstants.TOKEN_VALID);
 export const tokenInvalid = createAction(AuthConstants.TOKEN_INVALID);
