@@ -11,10 +11,11 @@ import { ButtonLabelService } from "./services/button-label.service";
 import { AppRoutingModule } from "./app-routing.module";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { TokenInterceptor } from "./auth/interceptors/token.interceptor";
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { coursesReducer, reducer } from './store/courses/courses.reducer';
-import { effects } from './store';
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import { coursesReducer } from "./store/courses/courses.reducer";
+import { effects } from "./store";
+import { userReducer } from "./store/user/user.reducer";
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,9 +25,9 @@ import { effects } from './store';
     FontAwesomeModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({courses: coursesReducer}),
+    StoreModule.forRoot({ courses: coursesReducer, user: userReducer }),
     EffectsModule.forRoot(effects),
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     AuthorizedGuard,

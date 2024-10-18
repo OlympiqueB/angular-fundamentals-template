@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { UserStoreService } from '../services/user-store.service';
+import { Injectable } from "@angular/core";
+import { CanActivate, Router, UrlTree } from "@angular/router";
+import { firstValueFrom } from "rxjs";
+import { UserStateFacade } from "@app/store/user/user.facade";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class AdminGuard implements CanActivate {
-  constructor(private userStoreService: UserStoreService, private router: Router) {}
+  constructor(
+    private userFacade: UserStateFacade,
+    private router: Router
+  ) {}
 
-  canActivate():
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    const isAdmin = this.userStoreService.isAdmin;
+  async canActivate(): Promise<boolean | UrlTree> {
+    const userRole = await firstValueFrom(this.userFacade.role$);
 
-    if (isAdmin) {
+    if (userRole === 'admin') {
       return true;
     } else {
       return this.router.createUrlTree(["/courses"]);

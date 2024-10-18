@@ -1,10 +1,10 @@
 import { ButtonLabelService } from "./services/button-label.service";
 import { Component } from "@angular/core";
-import { UserStoreService } from "./user/services/user-store.service";
 import { AuthService } from "./auth/services/auth.service";
 import { Router } from "@angular/router";
 import { SessionStorageService } from "./auth/services/session-storage.service";
 import { NAV_ROUTES } from "./app-routing.module";
+import { UserStateFacade } from "./store/user/user.facade";
 
 @Component({
   selector: "app-root",
@@ -18,8 +18,8 @@ export class AppComponent {
   constructor(
     protected buttonLabelService: ButtonLabelService,
     protected router: Router,
-    protected userStoreService: UserStoreService,
     protected authService: AuthService,
+    private userFacade: UserStateFacade,
     private sessionStorageService: SessionStorageService
   ) {
     this.authService.isAuthorised$.subscribe((isAuth) => {
@@ -27,7 +27,7 @@ export class AppComponent {
     });
 
     if (this.sessionStorageService.getToken()) {
-      this.userStoreService.getUser();
+      this.userFacade.getUser();
     }
   }
 

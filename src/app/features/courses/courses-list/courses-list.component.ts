@@ -1,10 +1,10 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NAV_ROUTES } from "@app/app-routing.module";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { CourseModel } from "@app/shared/models/course.model";
 import { CoursesStateFacade } from "@app/store/courses/courses.facade";
-import { UserStoreService } from "@app/user/services/user-store.service";
+import { UserStateFacade } from "@app/store/user/user.facade";
 import { Observable } from "rxjs";
 
 @Component({
@@ -16,11 +16,13 @@ export class CoursesListComponent {
   @Input() courses$!: Observable<CourseModel[]>;
   @Input() editable?: boolean = false;
 
+  isAdmin$ = this.userFacade.role$;
+
   constructor(
     protected buttonLabelService: ButtonLabelService,
     private router: Router,
-    protected userStoreService: UserStoreService,
-    private coursesFacade: CoursesStateFacade,
+    protected userFacade: UserStateFacade,
+    private coursesFacade: CoursesStateFacade
   ) {}
 
   deleteCourse(id: string) {
@@ -38,6 +40,6 @@ export class CoursesListComponent {
   }
 
   onShowClick(id: string) {
-    this.router.navigate([NAV_ROUTES.COURSES, id])
+    this.router.navigate([NAV_ROUTES.COURSES, id]);
   }
 }
