@@ -14,7 +14,7 @@ import { TokenInterceptor } from "./auth/interceptors/token.interceptor";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { coursesReducer } from "./store/courses/courses.reducer";
-import { effects } from "./store";
+import { effects, reducers } from "./store";
 import { userReducer } from "./store/user/user.reducer";
 
 @NgModule({
@@ -25,7 +25,7 @@ import { userReducer } from "./store/user/user.reducer";
     FontAwesomeModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({ courses: coursesReducer, user: userReducer }),
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
     HttpClientModule,
   ],

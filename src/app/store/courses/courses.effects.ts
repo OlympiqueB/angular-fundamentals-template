@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, of } from "rxjs";
 import { CoursesService } from "@app/services/courses.service";
 import * as CoursesActions from "./courses.actions";
+import * as AuthActions from "../auth/auth.actions"
 import { CourseModel } from "@app/shared/models/course.model";
 import { Router } from "@angular/router";
 import { NAV_ROUTES } from "@app/app-routing.module";
@@ -117,7 +118,8 @@ export class CoursesEffects {
         ofType(
           CoursesActions.requestCreateCourseSuccess,
           CoursesActions.requestEditCourseSuccess,
-          CoursesActions.requestSingleCourseFail
+          CoursesActions.requestSingleCourseFail,
+          AuthActions.requestLoginSuccess,
         ),
         exhaustMap(() => this.router.navigate([NAV_ROUTES.COURSES]))
       ),

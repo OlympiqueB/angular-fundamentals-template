@@ -3,7 +3,7 @@
     <app-button
       [buttonText]="
         buttonLabelService.getLabel(
-          isAuth ? 'LOGOUT' : 'LOGIN'
+          (isAuth$ | async) ? 'LOGOUT' : 'LOGIN'
         )
       "
       (clicked)="onLogoutClick()"
