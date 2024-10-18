@@ -2,7 +2,6 @@ import { environment } from "./../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CourseModel } from "@app/shared/models/course.model";
-import { forkJoin, map } from "rxjs";
 
 @Injectable({
   providedIn: "root",
