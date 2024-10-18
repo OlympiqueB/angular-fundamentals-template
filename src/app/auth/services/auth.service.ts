@@ -13,17 +13,10 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class AuthService {
-  private isAuthorised$$!: BehaviorSubject<boolean>;
-  public isAuthorised$!: Observable<boolean>;
-
   constructor(
     private http: HttpClient,
     private sessionStorageService: SessionStorageService
-  ) {
-    const isAuthorised = !!this.sessionStorageService.getToken();
-    this.isAuthorised$$ = new BehaviorSubject<boolean>(isAuthorised);
-    this.isAuthorised$ = this.isAuthorised$$.asObservable();
-  }
+  ) {}
 
   login(user: LoginUserModel): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
@@ -49,14 +42,5 @@ export class AuthService {
       `${environment.API_BASE_URL}/${environment.API_ROUTES.REGISTER}`,
       user
     );
-  }
-
-  get isAuthorised() {
-    const token = this.sessionStorageService.getToken();
-    const isAuthorised = !!token;
-    if (this.isAuthorised$$.value !== isAuthorised) {
-      this.isAuthorised$$.next(isAuthorised);
-    }
-    return isAuthorised;
   }
 }
