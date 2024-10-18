@@ -79,8 +79,9 @@ export const coursesReducer = createReducer(
     isAllCoursesLoading: true,
     errorMessage: null,
   })),
-  on(CoursesActions.requestDeleteCourseSuccess, (state) => ({
+  on(CoursesActions.requestDeleteCourseSuccess, (state, { id }) => ({
     ...state,
+    allCourses: state.allCourses.filter((course) => course.id !== id),
     isAllCoursesLoading: false,
   })),
   on(CoursesActions.requestDeleteCourseFail, (state, { error }) => ({

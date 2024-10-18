@@ -71,7 +71,7 @@ export class CoursesEffects {
       ofType(CoursesActions.requestDeleteCourse),
       exhaustMap((action: { id: string }) =>
         this.coursesService.deleteCourse(action.id).pipe(
-          map(() => CoursesActions.requestDeleteCourseSuccess()),
+          map(() => CoursesActions.requestDeleteCourseSuccess({id: action.id})),
           catchError((error) =>
             of(CoursesActions.requestDeleteCourseFail({ error }))
           )
