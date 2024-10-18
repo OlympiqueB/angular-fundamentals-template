@@ -1,13 +1,12 @@
 <app-header>
   <div class="header-right-content">
-    <app-button
-      [buttonText]="
-        buttonLabelService.getLabel(
-          (isAuth$ | async) ? 'LOGOUT' : 'LOGIN'
-        )
-      "
-      (clicked)="onLogoutClick()"
-    ></app-button>
+    <ng-container *ngIf="isAuth$ | async">
+      <span>{{ userName$ | async }}</span>
+      <app-button
+        [buttonText]="buttonLabelService.getLabel('LOGOUT')"
+        (clicked)="onLogoutClick()"
+      ></app-button
+    ></ng-container>
   </div>
 </app-header>
 

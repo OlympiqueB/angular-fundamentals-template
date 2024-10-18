@@ -14,6 +14,7 @@ import { AuthStateFacade } from "./store/auth/auth.facade";
 export class AppComponent implements OnInit {
   title = "courses-app";
   isAuth$ = this.authFacade.isAuthorised$;
+  userName$ = this.userFacade.name$;
 
   constructor(
     protected buttonLabelService: ButtonLabelService,
