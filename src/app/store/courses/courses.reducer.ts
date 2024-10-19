@@ -98,6 +98,7 @@ export const coursesReducer = createReducer(
   on(CoursesActions.requestEditCourseSuccess, (state, { course }) => ({
     ...state,
     allCourses: state.allCourses.map((c) => (c.id === course.id ? course : c)),
+    course: course,
     isSingleCourseLoading: false,
   })),
   on(CoursesActions.requestEditCourseFail, (state, { error }) => ({
