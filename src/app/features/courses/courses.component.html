@@ -6,6 +6,7 @@
         <app-search [placeholder]="'Input text'"></app-search>
       </div>
       <app-button
+        *ngIf="(userRole$ | async) === 'admin'"
         [buttonText]="buttonLabelService.getLabel('NEW_COURSE')"
         (clicked)="onNewCourseClick()"
       ></app-button>

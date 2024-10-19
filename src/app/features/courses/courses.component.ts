@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { CoursesStoreService } from "@app/services/courses-store.service";
 import { Router } from "@angular/router";
 import { NAV_ROUTES } from "@app/app-routing.module";
+import { UserStateFacade } from '@app/store/user/user.facade';
 
 @Component({
   selector: "app-courses",
@@ -15,10 +16,12 @@ export class CoursesComponent implements OnInit {
     private coursesStoreService: CoursesStoreService,
     private coursesFacade :CoursesStateFacade,
     protected buttonLabelService: ButtonLabelService,
-    private router: Router
+    private router: Router,
+    private userFacade: UserStateFacade
   ) {}
   courses$ = this.coursesFacade.allCourses$;
   isAllCoursesLoading$ = this.coursesFacade.isAllCoursesLoading$;
+  userRole$ = this.userFacade.role$;
 
   ngOnInit(): void {
     this.coursesFacade.getAllCourses();
