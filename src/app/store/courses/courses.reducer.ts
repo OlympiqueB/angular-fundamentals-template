@@ -19,7 +19,7 @@ export const initialState: CoursesState = {
   isAllCoursesLoading: false,
   isSingleCourseLoading: false,
   isSearchState: false,
-  errorMessage: null,
+  errorMessage: '',
 };
 
 export const coursesReducer = createReducer(
@@ -27,7 +27,7 @@ export const coursesReducer = createReducer(
   on(CoursesActions.requestAllCourses, (state) => ({
     ...state,
     isAllCoursesLoading: true,
-    errorMessage: null,
+    errorMessage: '',
   })),
   on(CoursesActions.requestAllCoursesSuccess, (state, { courses }) => ({
     ...state,
@@ -43,7 +43,7 @@ export const coursesReducer = createReducer(
   on(CoursesActions.requestSingleCourse, (state) => ({
     ...state,
     isSingleCourseLoading: true,
-    errorMessage: null,
+    errorMessage: '',
   })),
   on(CoursesActions.requestSingleCourseSuccess, (state, { course }) => ({
     ...state,
@@ -60,7 +60,7 @@ export const coursesReducer = createReducer(
     ...state,
     isSearchState: true,
     isAllCoursesLoading: true,
-    errorMessage: null,
+    errorMessage: '',
   })),
   on(CoursesActions.requestFilteredCoursesSuccess, (state, { courses }) => ({
     ...state,
@@ -77,7 +77,7 @@ export const coursesReducer = createReducer(
   on(CoursesActions.requestDeleteCourse, (state, { id }) => ({
     ...state,
     isAllCoursesLoading: true,
-    errorMessage: null,
+    errorMessage: '',
   })),
   on(CoursesActions.requestDeleteCourseSuccess, (state, { id }) => ({
     ...state,
@@ -93,7 +93,7 @@ export const coursesReducer = createReducer(
   on(CoursesActions.requestEditCourse, (state) => ({
     ...state,
     isSingleCourseLoading: true,
-    errorMessage: null,
+    errorMessage: '',
   })),
   on(CoursesActions.requestEditCourseSuccess, (state, { course }) => ({
     ...state,
@@ -109,7 +109,7 @@ export const coursesReducer = createReducer(
   on(CoursesActions.requestCreateCourse, (state) => ({
     ...state,
     isSingleCourseLoading: true,
-    errorMessage: null,
+    errorMessage: '',
   })),
   on(CoursesActions.requestCreateCourseSuccess, (state, { course }) => ({
     ...state,
