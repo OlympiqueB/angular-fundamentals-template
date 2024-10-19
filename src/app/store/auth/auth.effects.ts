@@ -66,7 +66,11 @@ export class AuthEffects {
   redirectToLoginPage$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.requestLogoutSuccess, AuthActions.requestLogoutFail),
+        ofType(
+          AuthActions.requestLogoutSuccess,
+          AuthActions.requestLogoutFail,
+          AuthActions.requestRegistrationSuccess
+        ),
         exhaustMap(() => this.router.navigate([NAV_ROUTES.LOGIN]))
       ),
     { dispatch: false }
