@@ -1,17 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { AuthService } from "../services/auth.service";
 import { SessionStorageService } from "../services/session-storage.service";
-import { Router } from "@angular/router";
 import { catchError, Observable, throwError } from "rxjs";
-import { NAV_ROUTES } from "@app/app-routing.module";
+import { AuthStateFacade } from "@app/store/auth/auth.facade";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
-    private authService: AuthService,
+    private authFacade: AuthStateFacade,
     private sessionStorageService: SessionStorageService,
-    private router: Router
   ) {}
 
   intercept(
@@ -32,9 +29,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && !req.headers.has('skipAuthInterceptor')) {
-          this.authService.logout().subscribe(() => {
-            this.router.navigate([NAV_ROUTES.LOGIN]);
-          });
+          this.authFacade.logout();
         }
         return throwError(error);
       })

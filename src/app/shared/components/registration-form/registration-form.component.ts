@@ -1,9 +1,7 @@
+import { AuthStateFacade } from "./../../../store/auth/auth.facade";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { NAV_ROUTES } from "@app/app-routing.module";
 import { RegistrationUserModel } from "@app/auth/models/registation.model";
-import { AuthService } from "@app/auth/services/auth.service";
 
 @Component({
   selector: "app-registration-form",
@@ -14,7 +12,9 @@ export class RegistrationFormComponent implements OnInit {
   registrationForm!: FormGroup;
   submitted = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authFacade: AuthStateFacade,
+  ) {}
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup({
@@ -32,11 +32,7 @@ export class RegistrationFormComponent implements OnInit {
         email: this.email.value,
         password: this.password.value,
       };
-
-      this.authService.register(newUser).subscribe({
-        next: () => this.router.navigate([NAV_ROUTES.LOGIN]),
-        error: (error) => console.error("Registration error ", error),
-      });
+      this.authFacade.register(newUser);
     }
   }
 

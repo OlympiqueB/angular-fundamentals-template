@@ -1,13 +1,13 @@
-import { UserStoreService } from "@app/user/services/user-store.service";
 import { Component, ViewChild } from "@angular/core";
 import { NgControl, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginUserModel } from "@app/auth/models/login.model";
-import { AuthService } from "@app/auth/services/auth.service";
 import { ButtonLabelService } from "@app/services/button-label.service";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
 import { NAV_ROUTES } from "@app/app-routing.module";
+import { UserStateFacade } from "@app/store/user/user.facade";
+import { AuthStateFacade } from "@app/store/auth/auth.facade";
 
 @Component({
   selector: "app-login-form",
@@ -20,10 +20,9 @@ export class LoginFormComponent {
 
   constructor(
     public buttonLabelService: ButtonLabelService,
-    private authService: AuthService,
     private library: FaIconLibrary,
     private router: Router,
-    private userStoreService: UserStoreService
+    private authFacade: AuthStateFacade,
   ) {
     library.addIconPacks(fas);
   }
@@ -35,15 +34,7 @@ export class LoginFormComponent {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       };
-      this.authService.login(loginUser).subscribe(
-        () => {
-          this.userStoreService.getUser();
-          this.router.navigate([NAV_ROUTES.COURSES]);
-        },
-        (error) => {
-          console.error("Login failed", error);
-        }
-      );
+      this.authFacade.login(loginUser);
     }
   }
 
