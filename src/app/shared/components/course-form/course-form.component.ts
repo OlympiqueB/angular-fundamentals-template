@@ -9,13 +9,13 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { NAV_ROUTES } from "@app/app-routing.module";
 import { ButtonLabelService } from "@app/services/button-label.service";
-import { CoursesStoreService } from "@app/services/courses-store.service";
 import { AuthorModel } from "@app/shared/models/author.model";
 import { CourseModel } from "@app/shared/models/course.model";
+import { AuthorsStateFacade } from "@app/store/authors/authors.facade";
 import { CoursesStateFacade } from "@app/store/courses/courses.facade";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { of, switchMap } from "rxjs";
+import { distinctUntilChanged, of, switchMap } from "rxjs";
 
 @Component({
   selector: "app-course-form",
@@ -26,20 +26,21 @@ export class CourseFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private library: FaIconLibrary,
-    private coursesStoreService: CoursesStoreService,
     private route: ActivatedRoute,
     private router: Router,
     public buttonLabelService: ButtonLabelService,
-    private coursesFacade: CoursesStateFacade
+    private coursesFacade: CoursesStateFacade,
+    private authorsFacade: AuthorsStateFacade
   ) {
     this.library.addIconPacks(fas);
   }
 
   courseForm!: FormGroup;
-  fullAuthorArray!: AuthorModel[];
-  courseAuthorArray!: AuthorModel[];
   submitted: boolean = false;
   newAuthorSubmitted: boolean = false;
+
+  authors$ = this.authorsFacade.allAuthors$;
+  courseAuthors$ = this.authorsFacade.courseAuthors$;
 
   courseId: string = "";
   course$ = this.coursesFacade.course$;
@@ -47,7 +48,6 @@ export class CourseFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.initAuthors();
 
     this.route.params
       .pipe(
@@ -97,22 +97,17 @@ export class CourseFormComponent implements OnInit {
     });
 
     this.authors.clear();
-    this.courseAuthorArray = [];
 
     course.authors.forEach((authorId: string) => {
-      const author = this.fullAuthorArray.find((a) => a.id === authorId);
-      if (author) {
-        this.onAddAuthorClick(author);
-      }
+      this.authorsFacade.addAuthorToCourse(authorId);
     });
-  }
 
-  initAuthors() {
-    this.courseAuthorArray = [];
-    this.coursesStoreService.getAllAuthors();
-    this.coursesStoreService.authors$.subscribe({
-      next: (a: any) => (this.fullAuthorArray = a),
-    });
+    this.courseAuthors$
+      .pipe(distinctUntilChanged())
+      .subscribe((authors: AuthorModel[]) => {
+        this.authors.clear();
+        authors.forEach((author) => this.authors.push(this.fb.control(author)));
+      });
   }
 
   onCourseSubmit() {
@@ -148,31 +143,20 @@ export class CourseFormComponent implements OnInit {
     this.newAuthorSubmitted = true;
 
     if (this.newAuthor?.valid && this.newAuthor.value) {
-      this.coursesStoreService.createAuthor(this.newAuthor.value);
-      this.coursesStoreService.getAllAuthors();
+      this.authorsFacade.createAuthor(this.newAuthor.value);
+      this.authorsFacade.getAllAuthors();
 
       this.author.reset();
       this.newAuthorSubmitted = false;
     }
   }
 
-  onAddAuthorClick(author: AuthorModel) {
-    this.courseAuthorArray.push(author);
-    this.authors.push(this.fb.control(author));
-
-    this.fullAuthorArray = this.fullAuthorArray.filter(
-      (a) => a.id !== author.id
-    );
+  onAddAuthorClick(id: string, author?: AuthorModel) {
+    this.authorsFacade.addAuthorToCourse(id);
   }
 
   onRemoveAuthorClick(author: AuthorModel) {
-    const index = this.courseAuthorArray.findIndex((a) => a.id === author.id);
-    this.courseAuthorArray = this.courseAuthorArray.filter(
-      (a) => a.id !== author.id
-    );
-    this.authors.removeAt(index);
-
-    this.fullAuthorArray.push(author);
+    this.authorsFacade.removeAuthorFromCourse(author);
   }
 
   onCancelClick(): void {

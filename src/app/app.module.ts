@@ -5,7 +5,6 @@ import { SharedModule } from "@shared/shared.module";
 import { AppComponent } from "@app/app.component";
 import { NotAuthorizedGuard } from "@app/auth/guards/not-authorized.guard";
 import { AuthorizedGuard } from "@app/auth/guards/authorized.guard";
-import { CoursesStoreService } from "@app/services/courses-store.service";
 import { CoursesService } from "@app/services/courses.service";
 import { ButtonLabelService } from "./services/button-label.service";
 import { AppRoutingModule } from "./app-routing.module";
@@ -13,9 +12,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { TokenInterceptor } from "./auth/interceptors/token.interceptor";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-import { coursesReducer } from "./store/courses/courses.reducer";
 import { effects, reducers } from "./store";
-import { userReducer } from "./store/user/user.reducer";
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +30,6 @@ import { userReducer } from "./store/user/user.reducer";
     AuthorizedGuard,
     NotAuthorizedGuard,
     CoursesService,
-    CoursesStoreService,
     ButtonLabelService,
     {
       provide: HTTP_INTERCEPTORS,

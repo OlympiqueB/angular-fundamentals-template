@@ -124,13 +124,13 @@
             <h3>Course Authors</h3>
             <div class="author__buttons">
               <div formArrayName="authors" class="course__authors">
-                <div *ngFor="let author of courseAuthorArray">
+                <div *ngFor="let author of courseAuthors$ | async">
                   <div class="author__buttons__list">
                     <span>{{ author.name }}</span>
                     <span (click)="onRemoveAuthorClick(author)">-</span>
                   </div>
                 </div>
-                <div *ngIf="courseAuthorArray.length === 0">
+                <div *ngIf="(courseAuthors$ | async)?.length === 0">
                   No authors added
                 </div>
               </div>
@@ -140,10 +140,10 @@
         <div class="form__control w-80">
           <h3>Authors List</h3>
           <div class="author__buttons">
-            <div *ngFor="let author of fullAuthorArray">
+            <div *ngFor="let author of authors$ | async">
               <div class="author__buttons__list">
                 <span>{{ author.name }}</span>
-                <span (click)="onAddAuthorClick(author)">+</span>
+                <span (click)="onAddAuthorClick(author.id, author)">+</span>
               </div>
             </div>
           </div>

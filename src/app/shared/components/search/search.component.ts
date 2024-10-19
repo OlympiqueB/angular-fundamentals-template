@@ -1,7 +1,6 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ButtonLabelService } from "@app/services/button-label.service";
-import { CoursesStoreService } from "@app/services/courses-store.service";
 import { CoursesStateFacade } from "@app/store/courses/courses.facade";
 
 @Component({

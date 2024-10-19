@@ -1,11 +1,9 @@
-import { Observable } from "rxjs";
-import { CoursesStoreService } from "@app/services/courses-store.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ButtonLabelService } from "@app/services/button-label.service";
-import { AuthorModel } from "@app/shared/models/author.model";
 import { NAV_ROUTES } from "@app/app-routing.module";
 import { CoursesStateFacade } from "@app/store/courses/courses.facade";
+import { AuthorsStateFacade } from "@app/store/authors/authors.facade";
 
 @Component({
   selector: "app-course-info",
@@ -14,13 +12,13 @@ import { CoursesStateFacade } from "@app/store/courses/courses.facade";
 })
 export class CourseInfoComponent implements OnInit {
   course$ = this.coursesFacade.course$;
-  authors$?: Observable<AuthorModel[]>;
+  authors$ = this.authorsFacade.allAuthors$;
   isSingleCourseLoading$ = this.coursesFacade.isSingleCourseLoading$;
 
   constructor(
     public buttonLabelService: ButtonLabelService,
     private router: Router,
-    private coursesStoreService: CoursesStoreService,
+    private authorsFacade: AuthorsStateFacade,
     private coursesFacade: CoursesStateFacade,
     private route: ActivatedRoute
   ) {}
@@ -28,8 +26,8 @@ export class CourseInfoComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const courseId = params["id"];
-      this.coursesFacade.getSingleCourse(courseId)
-      this.authors$ = this.coursesStoreService.authors$;
+      this.coursesFacade.getSingleCourse(courseId);
+      this.authorsFacade.getAllAuthors();
     });
   }
 
