@@ -5,6 +5,7 @@ import { SessionStorageService } from "./auth/services/session-storage.service";
 import { NAV_ROUTES } from "./app-routing.module";
 import { UserStateFacade } from "./store/user/user.facade";
 import { AuthStateFacade } from "./store/auth/auth.facade";
+import { take } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   onLogoutClick() {
-    this.isAuth$.subscribe((isAuthorised: boolean) => {
+    this.isAuth$.pipe(take(1)).subscribe((isAuthorised: boolean) => {
       if (isAuthorised) {
         this.authFacade.logout();
       } else {
