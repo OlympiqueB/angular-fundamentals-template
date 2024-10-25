@@ -1,24 +1,17 @@
-import { Component, Input, OnInit, Output } from "@angular/core";
-import { CoursesStoreService } from "@app/services/courses-store.service";
-import { AuthorModel } from "@app/shared/models/author.model";
+import { Component, Input } from "@angular/core";
 import { CourseModel } from "@app/shared/models/course.model";
-import { Observable } from "rxjs";
+import { AuthorsStateFacade } from "@app/store/authors/authors.facade";
 
 @Component({
   selector: "app-course-card",
   templateUrl: "./course-card.component.html",
   styleUrls: ["./course-card.component.scss"],
 })
-export class CourseCardComponent implements OnInit {
+export class CourseCardComponent {
   @Input() courseObject!: CourseModel;
   @Input() isEditable?: boolean = true;
 
-  authors$!: Observable<AuthorModel[]>;
+  authors$ = this.authorsFacade.allAuthors$;
 
-  constructor(private coursesStoreService: CoursesStoreService) {}
-
-  ngOnInit(): void {
-    this.authors$ = this.coursesStoreService.authors$;
-  }
-  // @Output() clickOnShow;
+  constructor(private authorsFacade: AuthorsStateFacade) {}
 }

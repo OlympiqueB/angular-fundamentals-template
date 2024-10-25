@@ -6,13 +6,13 @@
       (clicked)="onShowClick(course.id)"
     ></app-button>
     <app-button
-      *ngIf="userStoreService.isAdmin"
+      *ngIf="(isAdmin$ | async) === 'admin'"
       courseEdit
       [iconName]="buttonLabelService.getLabel('TRASH_CAN')"
       (clicked)="deleteCourse(course.id)"
     ></app-button>
     <app-button
-      *ngIf="userStoreService.isAdmin"
+      *ngIf="(isAdmin$ | async) === 'admin'"
       courseDelete
       [iconName]="buttonLabelService.getLabel('PENCIL')"
       (clicked)="onEditClick(course.id)"
